@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  beammp-server:
+    image: rouhim/beammp-server:${VERSION}
+    build:
+      context: .
+      args:
+        DOWNLOAD_URL: https://github.com/BeamMP/BeamMP-Server/releases/download/v1.20-linux/BeamMP-Server-debian
+    environment:
+      ## All available environment variable
+      # system parameter
+      - UID
+      - GID
+      - TZ
+      # game server parameter
+      - PRIVATE
+      - DEBUG
+      - CARS
+      - MAX_PLAYERS
+      - MAP
+      - NAME
+      - DESC
+      - AUTH_KEY
+    volumes:
+      # Simply slide any mod you want to add in that folder
+      - ./mods:/beammp/Resources/Client
+    ports:
+      - 30814:30814
