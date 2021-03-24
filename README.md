@@ -2,7 +2,7 @@
 
 This project provides a docker container for the [beammp](https://beammp.com) game server 
 and shows its usage in a docker-compose environment.
-The prebuilt linux binary files from the beammp server are used.
+The prebuilt linux binary files from the beammp server is used.
 
 ## Parameter
 
