@@ -6,8 +6,8 @@ on:
     branches: [ main ]
   workflow_dispatch: # Allows you to run this workflow manually from the Actions tab
 jobs:  
-  build:    
-    runs-on: ubuntu-latest    
+  build-specific:    
+    runs-on: ubuntu-latest 
     steps:
       - uses: actions/checkout@v2
       - name: Login to Docker Hub
@@ -15,15 +15,11 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build specific version
-        env: 
-          VERSION: 1.20
+      - name: Build image
         run: |          
+          VERSION=1.20
           docker-compose build
           docker-compose push
-      - name: Build latest version
-        env: 
-          VERSION: latest
-        run: |
+          VERSION=latest
           docker-compose build
           docker-compose push
