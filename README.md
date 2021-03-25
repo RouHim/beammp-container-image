@@ -85,6 +85,6 @@ latest      | references to the latest version available
 
 ## Used materials
 
+- BeamMP server repository: https://github.com/BeamMP/BeamMP-Server
 - Official server installation guide: https://wiki.beammp.com/en/home/server-installation
-- BeamMP linux server repository: https://github.com/BeamMP/BeamMP-Server
 - Inspired by: https://github.com/mastamic-ian/BeamMP_docker
