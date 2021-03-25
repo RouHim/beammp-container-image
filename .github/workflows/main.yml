@@ -10,19 +10,23 @@ jobs:
     runs-on: ubuntu-latest 
     steps:
       - uses: actions/checkout@v2
-      #- name: Login to Docker Hub
-        #uses: docker/login-action@v1
-        #with:
-          #username: ${{ secrets.DOCKERHUB_USERNAME }}
-          #password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build image
         run: |          
-          echo "${{ secrets.DOCKERHUB_USERNAME }}" | docker login docker.pkg.github.com -u "${{ secrets.DOCKERHUB_TOKEN }}" --password-stdin
-        
           export VERSION=1.20
           docker-compose build
-          docker-compose push
-          
+          docker-compose push          
           export VERSION=latest
           docker-compose build
           docker-compose push
+      - name: Docker Hub Description
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: rouhim/beammp-docker
+        
