@@ -1,0 +1,24 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+on:  
+  push:
+    branches: [ main ]
+  workflow_dispatch: # Allows you to run this workflow manually from the Actions tab
+jobs:  
+  build:    
+    runs-on: ubuntu-latest    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build specific version
+        env: 
+          VERSION: 1.20
+        run: |
+          docker-compose build
+          docker-compose push
+      - name: Build latest version
+        env: 
+          VERSION: latest
+        run: |
+          docker-compose build
+          docker-compose push
