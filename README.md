@@ -41,7 +41,7 @@ cp .env.example .env
 
 Adjust the values in the `.env` to your needs and run:
 ```bash
-docker-compose up -d
+docker-compose pull && docker-compose up -d
 ```
 
 ## Mods
