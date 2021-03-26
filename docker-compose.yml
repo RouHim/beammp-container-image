@@ -2,11 +2,9 @@ version: "3"
 
 services:
   beammp-server:
-    image: rouhim/beammp-server:${VERSION}
+    image: rouhim/beammp-server
     build:
       context: .
-      args:
-        DOWNLOAD_URL: https://github.com/BeamMP/BeamMP-Server/releases/download/v1.20-linux/BeamMP-Server-debian
     environment:
       ## All available environment variable
       # system parameter

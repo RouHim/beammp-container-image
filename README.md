@@ -32,7 +32,7 @@ docker run --name beammp-server -p 30814:30814 \
 
 ### docker-compose
 Check `docker-compose.yml` if interested.
-But the configuration should be done within the `.env` file.
+The configuration should be done within the `.env` file.
 
 To get started copy `.env.example` to `.env`. 
 ```bash
@@ -54,7 +54,7 @@ In the first place you should consider reading [the official mods guide](https:/
 Just copy the downloaded zip file into the `mods` folder.
 
 ### Custom maps:
-First Copy the downloaded zip file into the `mods` folder.
+Copy the downloaded zip file into the `mods` folder.
 
 Now we have to find out the custom map path name (e.g.: `/levels/car_jump_arena/info.json`),
 to set it later in the as map to load.
@@ -72,19 +72,11 @@ unzip -l PATH/TO/MAP.zip \
   | awk '{split($0,a," "); print "/"a[4]}'
 ```
 
-## Tag versions
-
-The following table lists all versions available of the docker image. 
-The table also references the beammp server release used for each version.
-
-Image Tag   | Beammp server version                                                                                    
------------ | ---------------------------------------------------------------------------------  
-latest      | references to the latest version available                                            
-1.20        | [v1.20-linux](https://github.com/BeamMP/BeamMP-Server/releases/tag/v1.20-linux)                                            
-
+## Server version
+There is no versioning for this image, 
+assuming that the server should always be in the latest version.
 
 ## Used materials
-
 - BeamMP server repository: https://github.com/BeamMP/BeamMP-Server
 - Official server installation guide: https://wiki.beammp.com/en/home/server-installation
 - Inspired by: https://github.com/mastamic-ian/BeamMP_docker

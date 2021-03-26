@@ -27,5 +27,7 @@ EOF
 # Adjust the server files permissions
 chown -R "$GID":"$UID" /beammp
 
+ls -la /beammp/beammp-server
+
 # Start the beammp server executable
-exec /beammp/beammp-server
+/beammp/beammp-server

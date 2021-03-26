@@ -1,8 +1,24 @@
-FROM debian:stable-slim
-MAINTAINER Rouven Himmelstein rouvenhimmelstein@gmail.com
-
+####################
+#   Build Image    #
+####################
+FROM alpine AS builder
 ## Build args
-ARG DOWNLOAD_URL="https://github.com/BeamMP/BeamMP-Server/releases/download/v1.20-linux/BeamMP-Server-debian"
+ARG GIT_URL="https://github.com/BeamMP/BeamMP-Server"
+## Build the server
+WORKDIR /
+RUN apk update && \
+    apk add git make cmake g++ boost-dev lua5.3-dev zlib-dev rapidjson-dev curl-dev openssl-dev
+RUN git clone --recursive $GIT_URL beammp
+WORKDIR /beammp
+RUN cmake -DLUA_LIBRARY=/usr/lib/lua5.3/liblua.so .
+# produce the 'BeamMP-Server' executable
+RUN make
+
+####################
+#    Run Image     #
+####################
+FROM alpine
+MAINTAINER Rouven Himmelstein rouvenhimmelstein@gmail.com
 
 ## System parameter
 ENV TZ "Europe/Berlin"
@@ -22,21 +38,25 @@ ENV USE "Resources"
 ENV AUTH_KEY ""
 
 # Create game server folder
-RUN mkdir beammp
+RUN mkdir /beammp
 WORKDIR /beammp
 
 # Install game server required packages
-RUN apt update -q && \
-    apt upgrade -q -y && \
-    apt install -y liblua5.3-dev libz-dev rapidjson-dev libcurl4-openssl-dev
+RUN apk update && \
+    apk add lua5.3 libgcc zlib rapidjson curl openssl
+RUN rm -f /sbin/apk && \
+    rm -rf /etc/apk && \
+    rm -rf /lib/apk && \
+    rm -rf /usr/share/apk && \
+    rm -rf /var/lib/apk
 
 # Prepare executable
-ADD $DOWNLOAD_URL beammp-server
+COPY --from=builder /beammp/BeamMP-Server ./beammp-server
 RUN chmod +x beammp-server
 
 # Prepare user
-RUN groupadd -g ${GID} beammp
-RUN useradd -u ${UID} -g beammp -s /bin/sh beammp
+RUN addgroup -S beammp
+RUN adduser -S beammp -G beammp
 RUN chown -R ${GID}:${UID} .
 
 EXPOSE 30814
