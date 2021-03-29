@@ -1,5 +1,3 @@
-MAINTAINER Rouven Himmelstein rouvenhimmelstein@gmail.com
-
 ####################
 #   Build Image    #
 ####################
@@ -28,6 +26,7 @@ RUN make
 #    Run Image     #
 ####################
 FROM alpine
+MAINTAINER Rouven Himmelstein rouvenhimmelstein@gmail.com
 
 ## System parameter
 ENV TZ "Europe/Berlin"
