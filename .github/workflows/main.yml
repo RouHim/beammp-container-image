@@ -3,6 +3,8 @@ on:
   push:
     branches: [ main ]
   workflow_dispatch: # Allows you to run this workflow manually from the Actions tab
+  schedule:
+    - cron: 0 23 * * 0
 jobs:
   build:
     runs-on: ubuntu-latest
