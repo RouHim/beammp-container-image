@@ -1,21 +1,13 @@
 # beammp-docker
 
-This project provides a docker container for the [beammp](https://beammp.com) game server 
+This project provides a 40Mb, alpine based, docker container for the [beammp](https://beammp.com) game server 
 and shows its usage in a docker-compose environment.
-The prebuilt linux binary files from the beammp server is used.
 
-## Parameter
-
-Variable name   | description                                                                                   | default value
---------------- |---------------------------------------------------------------------------------------------- | -------- 
-DEBUG           | Set to true to enable debug output in the console                                             | false
-PRIVATE         | Set to true if you don't want to show up in the Server Browser                                | true
-CARS            | How many vehicles a player is allowed to have at the same time                                | 1
-MAX_PLAYER      | How many players your server can hold at a time                                               | 10
-MAP             | What the server map is                                                                        | /levels/gridmap/info.json
-NAME            | What your server is called. This shows up in the Server Browser                               | BeamMP New Server
-DESC            | What shows under the name when you click on the server                                        | BeamMP Default Description
-AUTH_KEY        | The authentication key used by the server. It is used to identify your server and is mandatory| empty
+## Motivation
+Because there were no well-documented, alpine based beammp docker images out there,
+I did one by myself.
+The manual building of the beammp server is needed, because the prebuilt linux binary
+uses glibc instead of the musl implementation.
 
 ## Usage
 The sections below provide use cases for docker and docker-compose.
@@ -44,7 +36,24 @@ Adjust the values in the `.env` to your needs and run:
 docker-compose pull && docker-compose up -d
 ```
 
-## Mods
+## Parameter
+
+Variable name   | description                                                                                   | default value
+--------------- |---------------------------------------------------------------------------------------------- | -------- 
+AUTH_KEY        | **Mandatory!** The authentication key used by the server. It is used to identify your server and is not optional.| empty
+DEBUG           | Set to true to enable debug output in the console                                             | false
+PRIVATE         | Set to true if you don't want to show up in the Server Browser                                | true
+CARS            | How many vehicles a player is allowed to have at the same time                                | 1
+MAX_PLAYER      | How many players your server can hold at a time                                               | 10
+MAP             | What the server map is                                                                        | /levels/gridmap/info.json
+NAME            | What your server is called. This shows up in the Server Browser                               | BeamMP New Server
+DESC            | What shows under the name when you click on the server                                        | BeamMP Default Description
+
+A new AUTH_KEY can be claimed on their [discord server](https://beammp.com/k/dashboard).
+The key creating is done by using a discord plugin and requires not much effort.
+Each key is IP-bound so there can be only one key per IP. 
+
+## Game Mods
 In the first place you should consider reading [the official mods guide](https://wiki.beammp.com/en/home/server-installation#how-to-add-mods-to-your-server).
 
 > The folder `mods` is created automatically during the first startup,
