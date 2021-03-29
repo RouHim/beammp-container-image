@@ -10,11 +10,11 @@ and shows its usage in a docker-compose environment.
 ## Motivation
 Because there were no well-documented, alpine based beammp docker images out there,
 I did one by myself.
-The manual building of the beammp server is needed, because the prebuilt linux binary
-uses glibc instead of the musl implementation.
+Building the beammp server is needed, because the prebuilt linux binary
+uses glibc as C standard library implementation (instead of musl).
 
 ## Usage
-The sections below provide use cases for docker and docker-compose.
+The sections below provides use cases for docker and docker-compose.
 
 ### docker
 Quick start:
@@ -40,7 +40,7 @@ Adjust the values in the `.env` to your needs and run:
 docker-compose pull && docker-compose up -d
 ```
 
-## Parameter
+## Environment parameter
 
 Variable name   | description                                                                                   | default value
 --------------- |---------------------------------------------------------------------------------------------- | -------- 
@@ -57,7 +57,7 @@ A new AUTH_KEY can be claimed on their [discord server](https://beammp.com/k/das
 The key creating is done by using a discord plugin and requires not much effort.
 Each key is IP-bound so there can be only one key per IP. 
 
-## Game Mods
+## Game mods
 In the first place you should consider reading [the official mods guide](https://wiki.beammp.com/en/home/server-installation#how-to-add-mods-to-your-server).
 
 > The folder `mods` is created automatically during the first startup,
@@ -85,11 +85,8 @@ unzip -l PATH/TO/MAP.zip \
   | awk '{split($0,a," "); print "/"a[4]}'
 ```
 
-## Server version
-There is no versioning for this image, 
-assuming that the server should always be in the latest version.
-
 ## Used materials
 - BeamMP server repository: https://github.com/BeamMP/BeamMP-Server
 - Official server installation guide: https://wiki.beammp.com/en/home/server-installation
 - Inspired by: https://github.com/mastamic-ian/BeamMP_docker
+- Build from: https://github.com/RouHim/beammp-docker
