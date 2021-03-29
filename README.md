@@ -4,7 +4,7 @@
 [![Docker Hub size](https://img.shields.io/docker/image-size/rouhim/beammp-server)](https://hub.docker.com/r/rouhim/beammp-server)
 
 
-This project provides a 40Mb, alpine based, docker container for the [beammp](https://beammp.com) game server 
+This project provides a small, alpine based, docker container for the [beammp](https://beammp.com) game server 
 and shows its usage in a docker-compose environment.
 
 ## Motivation
