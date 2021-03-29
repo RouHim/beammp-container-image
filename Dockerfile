@@ -59,6 +59,7 @@ RUN addgroup -S beammp
 RUN adduser -S beammp -G beammp
 RUN chown -R ${GID}:${UID} .
 
-EXPOSE 30814
+EXPOSE 30814/tcp
+EXPOSE 30814/udp
 COPY entrypoint.sh /
 ENTRYPOINT /entrypoint.sh

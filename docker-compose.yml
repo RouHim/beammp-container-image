@@ -24,4 +24,5 @@ services:
       # Simply slide any mod you want to add in that folder
       - ./mods:/beammp/Resources/Client
     ports:
-      - 30814:30814
+      - 30814:30814/tcp
+      - 30814:30814/udp
