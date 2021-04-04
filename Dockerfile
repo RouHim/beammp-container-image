@@ -11,16 +11,18 @@ WORKDIR /
 RUN apk update && \
     apk add git make cmake g++ boost-dev lua5.3-dev zlib-dev rapidjson-dev curl-dev openssl-dev
 
-# Grab the source code
+# Grab the latest release source code
 RUN git clone --recursive $GIT_URL beammp
 WORKDIR /beammp
+RUN LATEST_GIT_TAG=`git tag --sort=taggerdate | tail -1`
+RUN git checkout $LATEST_GIT_TAG
 
 # Build the server
 # We have to specify the lua path manually, because it is not set correctly during apk setup
 RUN cmake -DLUA_LIBRARY=/usr/lib/lua5.3/liblua.so .
 
 # Build the 'BeamMP-Server' executable
-RUN make
+RUN make -j4
 
 ####################
 #    Run Image     #
