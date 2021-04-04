@@ -20,7 +20,7 @@ The sections below provides use cases for docker and docker-compose.
 Quick start:
 
 ```bash
-docker run --name beammp-server -p 30814:30814 \
+docker run --name beammp-server -p 30814:30814/tcp -p 30814:30814/udp \
            -e NAME='My first awesome Server' \
            -e AUTH_KEY='<insert auth-key>' \
            rouhim/beammp-server:latest
