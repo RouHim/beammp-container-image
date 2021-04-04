@@ -53,7 +53,7 @@ WORKDIR /beammp
 
 # Install game server required packages
 RUN apk update && \
-    apk add lua5.3 libgcc zlib rapidjson curl openssl
+    apk add -U tzdata lua5.3 libgcc zlib rapidjson curl openssl
 # Disable package manager
 RUN rm -f /sbin/apk && \
     rm -rf /etc/apk && \

@@ -27,7 +27,8 @@ EOF
 # Adjust the server files permissions
 chown -R "$GID":"$UID" /beammp
 
-ls -la /beammp/beammp-server
+# Set timezone
+ln -sf "/usr/share/zoneinfo/$TZ" /etc/localtime
 
 # Start the beammp server executable
 /beammp/beammp-server
