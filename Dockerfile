@@ -11,13 +11,10 @@ WORKDIR /
 RUN apk update && \
     apk add git make cmake g++ boost-dev lua5.3-dev zlib-dev rapidjson-dev curl-dev openssl-dev
 
-# Grab the latest release source code
+# Grab the latest released source code
 RUN git clone --recursive $GIT_URL /beammp
 WORKDIR /beammp
-RUN git tag --sort=taggerdate | tail -1
-RUN LATEST_GIT_TAG=$(git tag --sort=taggerdate | tail -1)
-RUN git checkout $LATEST_GIT_TAG && \
-    echo "Using version: $LATEST_GIT_TAG"
+RUN git checkout $(git tag --sort=taggerdate | tail -1)
 
 # Build the server
 # We have to specify the lua path manually, because it is not set correctly during apk setup
@@ -56,6 +53,7 @@ WORKDIR /beammp
 # Install game server required packages
 RUN apk update && \
     apk add -U tzdata lua5.3 libgcc zlib rapidjson curl openssl
+
 # Disable package manager
 RUN rm -f /sbin/apk && \
     rm -rf /etc/apk && \
@@ -68,8 +66,7 @@ COPY --from=builder /beammp/BeamMP-Server ./beammp-server
 RUN chmod +x beammp-server
 
 # Prepare user
-RUN addgroup -S beammp
-RUN adduser -S beammp -G beammp
+RUN addgroup -S beammp && adduser -S beammp -G beammp
 RUN chown -R ${GID}:${UID} .
 
 # We need tcp and udp
