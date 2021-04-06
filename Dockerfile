@@ -15,7 +15,8 @@ RUN apk update && \
 RUN git clone --recursive $GIT_URL beammp
 WORKDIR /beammp
 RUN LATEST_GIT_TAG=`git tag --sort=taggerdate | tail -1`
-RUN git checkout $LATEST_GIT_TAG
+RUN git checkout $LATEST_GIT_TAG && \
+    echo "Using version: $LATEST_GIT_TAG"
 
 # Build the server
 # We have to specify the lua path manually, because it is not set correctly during apk setup
