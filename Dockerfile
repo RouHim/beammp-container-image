@@ -12,9 +12,10 @@ RUN apk update && \
     apk add git make cmake g++ boost-dev lua5.3-dev zlib-dev rapidjson-dev curl-dev openssl-dev
 
 # Grab the latest release source code
-RUN git clone --recursive $GIT_URL beammp
+RUN git clone --recursive $GIT_URL /beammp
 WORKDIR /beammp
-RUN LATEST_GIT_TAG=`git tag --sort=taggerdate | tail -1`
+RUN git tag --sort=taggerdate | tail -1
+RUN LATEST_GIT_TAG=$(git tag --sort=taggerdate | tail -1)
 RUN git checkout $LATEST_GIT_TAG && \
     echo "Using version: $LATEST_GIT_TAG"
 
