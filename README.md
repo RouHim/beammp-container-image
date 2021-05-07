@@ -54,7 +54,7 @@ NAME            | What your server is called. This shows up in the Server Browse
 DESC            | What shows under the name when you click on the server                                        | BeamMP Default Description
 
 A new AUTH_KEY can be claimed on their [discord server](https://beammp.com/k/dashboard).
-The key creating is done by using a discord plugin and requires not much effort.
+The key creation is done by using a discord plugin and requires not much effort.
 Each key is IP-bound so there can be only one key per IP. 
 
 ## Game mods
