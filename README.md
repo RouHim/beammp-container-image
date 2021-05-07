@@ -89,4 +89,4 @@ unzip -l PATH/TO/MAP.zip \
 - BeamMP server repository: https://github.com/BeamMP/BeamMP-Server
 - Official server installation guide: https://wiki.beammp.com/en/home/server-installation
 - Inspired by: https://github.com/mastamic-ian/BeamMP_docker
-- Build from: https://github.com/RouHim/beammp-docker
+- Built from: https://github.com/RouHim/beammp-docker
