@@ -26,3 +26,7 @@ services:
     ports:
       - 30814:30814/tcp
       - 30814:30814/udp
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
