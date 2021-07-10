@@ -5,12 +5,8 @@ services:
     image: rouhim/beammp-server
     build:
       context: .
-    environment:
-      ## All available environment variable
-      # system parameter
-      - UID
-      - GID
-      # game server parameter
+    environment:      
+      # Game server parameter
       - PRIVATE
       - DEBUG
       - CARS
@@ -21,7 +17,7 @@ services:
       - AUTH_KEY
     volumes:
       # Simply slide any mod you want to add in that folder
-      - ./mods:/beammp/Resources/Client:ro
+      - ./mods:/beammp/Resources/Client
     ports:
       - 30814:30814/tcp
       - 30814:30814/udp
