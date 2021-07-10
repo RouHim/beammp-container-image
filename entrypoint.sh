@@ -10,25 +10,20 @@
 ######################
 
 # Recreate the Server.cfg. Never ever change me if you dont know!
-cat <<EOF >/beammp/Server.cfg
+cat <<EOF >/beammp/ServerConfig.toml
 # This is the BeamMP Server Configuration File v0.60
-Debug = ${DEBUG} # true or false to enable debug console output
-Private = ${PRIVATE} # Private?
-Port = ${PORT} # Port to run the server on UDP and TCP
-Cars = ${CARS} # Max cars for every player
-MaxPlayers = ${MAX_PLAYERS} # Maximum Amount of Clients
-Map = "${MAP}" # Default Map
-Name = "${NAME}" # Server Name
-Desc = "${DESC}" # Server Description
-use = "${USE}" # Resource file name
-AuthKey = "${AUTH_KEY}" # Auth Key
+[General]
+AuthKey = "${AUTH_KEY}"               # Auth Key
+Debug = ${DEBUG}                      # true or false to enable debug console output
+Private = ${PRIVATE}                  # Is this a private server
+Description = "${DESC}"               # Description of the server
+Name = "${NAME}"                      # Name of the server
+Map = "${MAP}"                        # The default map
+MaxCars = ${CARS}                     # Max cars for every player
+MaxPlayers = ${MAX_PLAYERS}           # Max player
+Port = ${PORT}                        # Port to run the server on UDP and TCP
+ResourceFolder = "/beammp/Resources"  # Resources folder
 EOF
-
-# Adjust the server files permissions
-chown -R "$GID":"$UID" /beammp
-
-# Set timezone
-ln -sf "/usr/share/zoneinfo/$TZ" /etc/localtime
 
 # Start the beammp server executable
 /beammp/beammp-server

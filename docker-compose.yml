@@ -10,7 +10,6 @@ services:
       # system parameter
       - UID
       - GID
-      - TZ
       # game server parameter
       - PRIVATE
       - DEBUG
@@ -22,7 +21,7 @@ services:
       - AUTH_KEY
     volumes:
       # Simply slide any mod you want to add in that folder
-      - ./mods:/beammp/Resources/Client
+      - ./mods:/beammp/Resources/Client:ro
     ports:
       - 30814:30814/tcp
       - 30814:30814/udp

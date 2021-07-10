@@ -23,16 +23,14 @@ RUN cmake -DLUA_LIBRARY=/usr/lib/lua5.3/liblua.so .
 # Build the 'BeamMP-Server' executable
 RUN make -j4
 
+# Remove debug symbols to reduce file size
+RUN strip BeamMP-Server
+
 ####################
 #    Run Image     #
 ####################
 FROM alpine
 MAINTAINER Rouven Himmelstein rouvenhimmelstein@gmail.com
-
-## System parameter
-ENV TZ "Europe/Berlin"
-ENV UID 1000
-ENV GID 1000
 
 ## Game server parameter and their defaults
 ENV DEBUG "false"
@@ -43,16 +41,15 @@ ENV MAX_PLAYERS "10"
 ENV MAP "/levels/gridmap/info.json"
 ENV NAME "BeamMP New Server"
 ENV DESC "BeamMP Default Description"
-ENV USE "Resources"
 ENV AUTH_KEY ""
 
 # Create game server folder
-RUN mkdir /beammp
+RUN mkdir -p /beammp/Resources/Server && mkdir -p /beammp/Resources/Client
 WORKDIR /beammp
 
 # Install game server required packages
 RUN apk update && \
-    apk add -U tzdata lua5.3 libgcc zlib rapidjson curl openssl
+    apk add --no-cache zlib lua5.3 libcrypto1.1 openssl libgcc
 
 # Disable package manager
 RUN rm -f /sbin/apk && \
@@ -66,8 +63,9 @@ COPY --from=builder /beammp/BeamMP-Server ./beammp-server
 RUN chmod +x beammp-server
 
 # Prepare user
-RUN addgroup -S beammp && adduser -S beammp -G beammp
-RUN chown -R ${GID}:${UID} .
+RUN addgroup -g 1000 -S beammp && adduser -u 1000 -S beammp -G beammp
+RUN chown -R beammp:beammp . && chmod -R 775 .
+USER beammp
 
 # We need tcp and udp
 EXPOSE 30814/tcp
