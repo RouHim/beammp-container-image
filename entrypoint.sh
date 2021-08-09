@@ -4,8 +4,7 @@
 #
 # It does the following:
 #   1. Recreate the Server.cfg file everytime the container starts with the passed environment variables
-#   2. Adjust the permissions, to enable non-root-docker user to modify server files.
-#   3. Starts the actual beammp server
+#   2. Starts the actual beammp server
 #
 ######################
 
