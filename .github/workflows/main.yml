@@ -19,6 +19,13 @@ jobs:
         run: |
           docker-compose build
           docker-compose push
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'rouhim/beammp-server'
+          exit-code: '1'
+          ignore-unfixed: true
+          severity: 'LOW,MEDIUM,HIGH,CRITICAL'
       - name: Update docker hub description
         uses: peter-evans/dockerhub-description@v2
         with:
