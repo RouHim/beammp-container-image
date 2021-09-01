@@ -4,7 +4,6 @@
 FROM alpine AS builder
 
 ## Build args
-ARG GIT_URL="https://github.com/BeamMP/BeamMP-Server"
 WORKDIR /
 
 # Setup required build dependencies
@@ -12,7 +11,7 @@ RUN apk update && \
     apk add git make cmake g++ boost-dev lua5.3-dev zlib-dev rapidjson-dev curl-dev openssl-dev
 
 # Grab the latest released source code
-RUN git clone --recurse-submodules $GIT_URL /beammp
+RUN git clone --recurse-submodules "https://github.com/BeamMP/BeamMP-Server" /beammp
 WORKDIR /beammp
 RUN git checkout --recurse-submodules $(git tag --sort=taggerdate | tail -1)
 
