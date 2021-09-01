@@ -12,19 +12,17 @@ RUN apk update && \
     apk add git make cmake g++ boost-dev lua5.3-dev zlib-dev rapidjson-dev curl-dev openssl-dev
 
 # Grab the latest released source code
-RUN git clone --recursive $GIT_URL /beammp
+RUN git clone --recurse-submodules $GIT_URL /beammp
 WORKDIR /beammp
-RUN git checkout $(git tag --sort=taggerdate | tail -1)
+RUN git checkout --recurse-submodules $(git tag --sort=taggerdate | tail -1)
 
 # Build the server
 # We have to specify the lua path manually, because it is not set correctly during apk setup
-RUN cmake -DLUA_LIBRARY=/usr/lib/lua5.3/liblua.so .
+# We use Release mode to reduce binary size, improve speed and remove debug symbols automatically
+RUN cmake -DLUA_LIBRARY=/usr/lib/lua5.3/liblua.so . -DCMAKE_BUILD_TYPE=Release
 
-# Build the 'BeamMP-Server' executable
-RUN make -j4
-
-# Remove debug symbols to reduce file size
-RUN strip BeamMP-Server
+# Build the 'BeamMP-Server' executable using all available CPU cores
+RUN make -j $(nproc)
 
 ####################
 #    Run Image     #
