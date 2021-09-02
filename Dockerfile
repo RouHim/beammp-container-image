@@ -27,7 +27,7 @@ RUN make -j $(nproc)
 #    Run Image     #
 ####################
 FROM alpine
-MAINTAINER Rouven Himmelstein rouvenhimmelstein@gmail.com
+MAINTAINER Rouven Himmelstein rouven@himmelstein.info
 
 ## Game server parameter and their defaults
 ENV DEBUG "false"
