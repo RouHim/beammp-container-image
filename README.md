@@ -56,9 +56,9 @@ MAX_PLAYER      | How many players your server can hold at a time               
 MAP             | What the server map is                                                                        | /levels/gridmap_v2/info.json
 NAME            | What your server is called. This shows up in the Server Browser                               | BeamMP New Server
 DESC            | What shows under the name when you click on the server                                        | BeamMP Default Description
+PORT            | Has to be the same as the host-port that the container is running on                          
 
-A new AUTH_KEY can be claimed on their [discord server](https://beammp.com/k/dashboard). The key creation is done by
-using a discord plugin and requires not much effort. Each key is IP-bound so there can be only one key per IP.
+A new AUTH_KEY can be claimed on [this site](https://beammp.com/k/dashboard), you will need a [Discord](https://discord.com) account for this. Note that the IP entered there does *not* matter, despite what the site claims. For more information refer to [this wiki page](https://wiki.beammp.com/en/home/server-installation#h-2-obtaining-an-authentication-key).
 
 ## Game mods
 
@@ -96,6 +96,7 @@ unzip -l PATH/TO/MAP.zip \
 ## Used materials
 
 - BeamMP server repository: https://github.com/BeamMP/BeamMP-Server
+- Official server maintenance guide: https://wiki.beammp.com/en/home/server-maintenance
 - Official server installation guide: https://wiki.beammp.com/en/home/server-installation
 - Inspired by: https://github.com/mastamic-ian/BeamMP_docker
 - Built from: https://github.com/RouHim/beammp-docker
