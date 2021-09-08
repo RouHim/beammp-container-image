@@ -17,11 +17,11 @@ services:
       - PORT
       - AUTH_KEY
     volumes:
-      # Simply slide any mod you want to add in that folder
+      # Just move all the mods you want to add into this folder
       - ./mods:/beammp/Resources/Client
     ports:
-      - "${PORT}:30814/tcp"
-      - "${PORT}:30814/udp"
+      - "${PORT}:${PORT}/tcp"
+      - "${PORT}:${PORT}/udp"
     logging:
       driver: "json-file"
       options:
