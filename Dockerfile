@@ -64,10 +64,6 @@ RUN addgroup -g 1000 -S beammp && adduser -u 1000 -S beammp -G beammp
 RUN chown -R beammp:beammp . && chmod -R 775 .
 USER beammp
 
-# We need tcp and udp
-EXPOSE 30814/tcp
-EXPOSE 30814/udp
-
 # Specify entrypoint
 COPY entrypoint.sh /
 ENTRYPOINT /entrypoint.sh

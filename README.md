@@ -22,10 +22,11 @@ The sections below provides use cases for docker and docker-compose.
 Quick start:
 
 ```bash
-docker run --name beammp-server -p 30814:30814/tcp -p 30814:30814/udp \
+docker run --name beammp-server \
+           -p 30814:30814/tcp -p 30814:30814/udp \
            -e NAME='My first awesome Server' \
            -e AUTH_KEY='<insert auth-key>' \
-           rouhim/beammp-server:latest
+           rouhim/beammp-server
 ```
 
 ### docker-compose
@@ -48,7 +49,8 @@ docker-compose pull && docker-compose up -d
 
 Variable name   | description                                                                                   | default value
 --------------- |---------------------------------------------------------------------------------------------- | -------- 
-AUTH_KEY        | **Mandatory!** The authentication key used by the server. It is used to identify your server and is not optional.| empty
+AUTH_KEY        | **
+Mandatory!** The authentication key used by the server. It is used to identify your server and is not optional.| empty
 DEBUG           | Set to true to enable debug output in the console                                             | false
 PRIVATE         | Set to true if you don't want to show up in the Server Browser                                | true
 CARS            | How many vehicles a player is allowed to have at the same time                                | 1
@@ -56,9 +58,12 @@ MAX_PLAYER      | How many players your server can hold at a time               
 MAP             | What the server map is                                                                        | /levels/gridmap_v2/info.json
 NAME            | What your server is called. This shows up in the Server Browser                               | BeamMP New Server
 DESC            | What shows under the name when you click on the server                                        | BeamMP Default Description
-PORT            | Has to be the same as the host-port that the container is running on                          | 30814
+PORT            | This value must be identical to the containers exposed port.                                  | 30814
 
-A new AUTH_KEY can be claimed on [this site](https://beammp.com/k/dashboard), you will need a [Discord](https://discord.com) account for this. Note that the IP entered there does *not* matter, despite what the site claims. For more information refer to [this wiki page](https://wiki.beammp.com/en/home/server-installation#h-2-obtaining-an-authentication-key).
+A new AUTH_KEY can be claimed on [this site](https://beammp.com/k/dashboard), you will need
+a [Discord](https://discord.com) account for this. Note that the IP entered there does *not* matter, despite what the
+site claims. For more information refer
+to [this wiki page](https://wiki.beammp.com/en/home/server-installation#h-2-obtaining-an-authentication-key).
 
 ## Game mods
 
