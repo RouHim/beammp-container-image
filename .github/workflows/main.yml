@@ -17,6 +17,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Build image
         run: |
+          cp .env.example .env
           docker-compose build
           docker-compose push
       - name: Run Trivy vulnerability scanner
