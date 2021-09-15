@@ -18,6 +18,7 @@ RUN git checkout --recurse-submodules $(git tag --sort=taggerdate | tail -1)
 # Build the server
 # We have to specify the lua path manually, because it is not set correctly during apk setup
 # We use Release mode to reduce binary size, improve speed and remove debug symbols automatically
+# We are disabling the sentry backend as it is not needed for our custom build.
 RUN cmake -DLUA_LIBRARY=/usr/lib/lua5.3/liblua.so -DCMAKE_BUILD_TYPE=Release -DSENTRY_BACKEND=none .
 
 # Build the 'BeamMP-Server' executable using all available CPU cores
