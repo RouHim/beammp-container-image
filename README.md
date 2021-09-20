@@ -3,7 +3,9 @@
 [![CI](https://github.com/RouHim/beammp-docker/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/RouHim/beammp-docker/actions/workflows/main.yml)
 [![Docker Hub pulls](https://img.shields.io/docker/pulls/rouhim/beammp-server.svg)](https://hub.docker.com/r/rouhim/beammp-server)
 [![Docker Hub size](https://img.shields.io/docker/image-size/rouhim/beammp-server)](https://hub.docker.com/r/rouhim/beammp-server)
-[![Trivy protected](https://github.com/aquasecurity/trivy)
+[![trivy](https://img.shields.io/badge/trivy-protected-blue)](https://github.com/aquasecurity/trivy)
+
+
 
 This project provides a small, alpine based, docker container for the [beammp](https://beammp.com) game server and shows
 its usage in a docker-compose environment.
