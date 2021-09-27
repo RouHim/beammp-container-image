@@ -6,7 +6,7 @@ on:
   schedule:
     - cron: 0 23 * * *
 jobs:
-  build:
+  build-docker-image:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -17,9 +17,8 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Build image
         run: |
-          cp .env.example .env
-          docker-compose build
-          docker-compose push
+          docker buildx create --use
+          docker buildx build -t rouhim/beammp-server --platform linux/amd64,linux/arm64 --push .
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
