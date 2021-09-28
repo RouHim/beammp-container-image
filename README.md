@@ -11,8 +11,8 @@ its usage in a docker-compose environment.
 
 ## Motivation
 
-Because there were no well-documented, alpine based beammp docker images out there, I did one by myself. Building the
-beammp server is needed, because the prebuilt linux binary uses glibc as C standard library implementation (instead of
+Because there were no well-documented, alpine based BeamMP docker images out there, I did one by myself. Building the
+BeamMP server is needed, because the prebuilt linux binary uses glibc as C standard library implementation (instead of
 musl).
 
 ## Usage
