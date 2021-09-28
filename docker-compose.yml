@@ -17,8 +17,10 @@ services:
       - PORT
       - AUTH_KEY
     volumes:
-      # Just move all the mods you want to add into this folder
-      - ./mods:/beammp/Resources/Client
+      # Just move all the client mods you want to add into this folder
+      - ./client-mods:/beammp/Resources/Client
+      # All server mods belong here
+      - ./server-mods:/beammp/Resources/Server
     ports:
       - "${PORT}:${PORT}/tcp"
       - "${PORT}:${PORT}/udp"
