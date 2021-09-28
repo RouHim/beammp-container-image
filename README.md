@@ -6,7 +6,7 @@
 [![trivy](https://img.shields.io/badge/trivy-protected-blue)](https://github.com/aquasecurity/trivy)
 [![os-arch](https://img.shields.io/badge/OS%2FARCH-amd64_•_arm64_•_arm/v7-blueviolet)](https://hub.docker.com/r/rouhim/beammp-server/tags)
 
-This project provides a small, alpine based, docker container for the [beammp](https://beammp.com) game server and shows
+This project provides a small, alpine based, docker container for the [BeamMP](https://beammp.com) game server and shows
 its usage in a docker-compose environment.
 
 ## Motivation
