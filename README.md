@@ -49,41 +49,40 @@ docker-compose pull && docker-compose up -d
 
 ## Environment parameter
 
-Variable name   | description                                                                                   | default value
---------------- |---------------------------------------------------------------------------------------------- | -------- 
-AUTH_KEY        | **Mandatory!** The authentication key used by the server. It is used to identify your server and is not optional.| empty
-DEBUG           | Set to true to enable debug output in the console                                             | false
-PRIVATE         | Set to true if you don't want to show up in the Server Browser                                | true
-CARS            | How many vehicles a player is allowed to have at the same time                                | 1
-MAX_PLAYER      | How many players your server can hold at a time                                               | 10
-MAP             | What the server map is                                                                        | /levels/gridmap_v2/info.json
-NAME            | What your server is called. This shows up in the Server Browser                               | BeamMP New Server
-DESC            | What shows under the name when you click on the server                                        | BeamMP Default Description
-PORT            | This value must be identical to the containers exposed port.                                  | 30814
+Variable name   | description                                                                                                   | default value
+--------------- |-------------------------------------------------------------------------------------------------------------- | -------- 
+AUTH_KEY        | Mandatory! The authentication key used by the server. It is used to identify your server and is not optional. | <empty>
+DEBUG           | Set to true to enable debug output in the console                                                             | false
+PRIVATE         | Set to true if you don't want to show up in the Server Browser                                                | true
+CARS            | How many vehicles a player is allowed to have at the same time                                                | 1
+MAX_PLAYER      | How many players your server can hold at a time                                                               | 10
+MAP             | What the server map is                                                                                        | /levels/gridmap_v2/info.json
+NAME            | What your server is called. This shows up in the Server Browser                                               | BeamMP New Server
+DESC            | What shows under the name when you click on the server                                                        | BeamMP Default Description
+PORT            | This value must be identical to the containers exposed port.                                                  | 30814
 
 A new AUTH_KEY can be claimed on [this site](https://beammp.com/k/dashboard), you will need
 a [Discord](https://discord.com) account for this. Note that the IP entered there does *not* matter, despite what the
 site claims. For more information refer
 to [this wiki page](https://wiki.beammp.com/en/home/server-installation#h-2-obtaining-an-authentication-key).
 
-## Game mods
+## Client mods
 
 In the first place you should consider
 reading [the official mods guide](https://wiki.beammp.com/en/home/server-installation#how-to-add-mods-to-your-server).
 
-> The folder `mods` is created automatically during the first startup,
+> The folder `client-mods` is created automatically during the first startup with docker compose,
 > but can also be created manually beforehand.
 
-### Vehicle mods:
-
-Just copy the downloaded zip file into the `mods` folder.
+Mods can be downloaded from the [official BeamNG resources website](https://www.beamng.com/resources/). Just copy the
+downloaded zip file into the `client-mods` folder.
 
 ### Custom maps:
 
-Copy the downloaded zip file into the `mods` folder.
+Copy the downloaded zip file into the `client-mods` folder.
 
-Now we have to find out the custom map path name (e.g.: `/levels/car_jump_arena/info.json`), to set it later in the as
-map to load.
+Now we have to find out the custom map path name (e.g.: `/levels/car_jump_arena/info.json`), to set it later as the map
+to load.
 
 To do so:
 
@@ -98,6 +97,13 @@ unzip -l PATH/TO/MAP.zip \
   | grep 'levels/.*/info.json' \
   | awk '{split($0,a," "); print "/"a[4]}'
 ```
+
+## Server mods
+
+> The folder `server-mods` is created automatically during the first startup with docker compose,
+> but can also be created manually beforehand.
+
+Coming soon™
 
 ## Used materials
 
