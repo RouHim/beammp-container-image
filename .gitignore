@@ -2,3 +2,5 @@
 .vs
 .env
 mods
+client-mods
+server-mods
