@@ -16,6 +16,7 @@ services:
       - DESC
       - PORT
       - AUTH_KEY
+      - ADDITIONAL_SERVER_CONFIG_TOML
     volumes:
       # Just move all the client mods you want to add into this folder
       - ./client-mods:/beammp/Resources/Client
