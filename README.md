@@ -35,10 +35,10 @@ docker run --name beammp-server \
 
 Check `docker-compose.yml` if interested. The configuration should be done within the `.env` file.
 
-To get started copy `.env.example` to `.env`.
+To get started copy `.env.example` to `.env` and create the mod folder.
 
 ```bash
-cp .env.example .env
+cp .env.example .env && mkdir client-mods server-mods
 ```
 
 Adjust the values in the `.env` to your needs and run:
@@ -70,21 +70,15 @@ to [this wiki page](https://wiki.beammp.com/en/home/server-installation#h-2-obta
 
 In the first place you should consider
 reading [the official mods guide](https://wiki.beammp.com/en/home/server-installation#how-to-add-mods-to-your-server).
-
-> The folder `client-mods` is created automatically during the first startup with docker compose,
-> but can also be created manually beforehand.
-
 Mods can be downloaded from the [official BeamNG resources website](https://www.beamng.com/resources/). Just copy the
 downloaded zip file into the `client-mods` folder.
 
-### Custom maps:
+### Custom maps
 
 Copy the downloaded zip file into the `client-mods` folder.
 
-Now we have to find out the custom map path name (e.g.: `/levels/car_jump_arena/info.json`), to set it later as the map
-to load.
-
-To do so:
+Then have to find out the custom map path name (e.g.: `/levels/car_jump_arena/info.json`), to set it later as the map to
+load. To do so:
 
 1. Execute the shell command below, or open the zip file manually.
 2. Copy the absolute path to the `info.json` location (`/levels/{map-name}/info.json`).
@@ -100,10 +94,28 @@ unzip -l PATH/TO/MAP.zip \
 
 ## Server mods
 
-> The folder `server-mods` is created automatically during the first startup with docker compose,
-> but can also be created manually beforehand.
+Server mods can be found in the [BeamMP forum](https://forum.beammp.com/c/resource-plugin-area/server-resources).
+Installation and configuration instructions are provided by each mod.
 
-Coming soon™
+### Augment ServerConfig.toml
+
+If you want to specify additional values for a mod in the `ServerConfig.toml` file, just specify this environment
+variable in your `.env`
+file:
+
+```toml
+ADDITIONAL_SERVER_CONFIG_TOML = '
+[SomeMod]
+MyKey = "This is \'quoted\'"
+
+[OtherMod]
+enabled = true
+some_numbers = [1, 2, 3]
+'
+```
+
+> Note that the single quotation marks are important at the beginning and end.
+> If you want to use single quotes in the toml value they must be escaped with a backslash: `key = "this is a \'quote\'"`
 
 ## Used materials
 

@@ -4,7 +4,7 @@
 #
 # It does the following:
 #   1. Recreate the Server.cfg file everytime the container starts with the passed environment variables
-#   2. Starts the actual beammp server
+#   2. Starts the actual BeamMP server
 #
 ######################
 
@@ -24,5 +24,17 @@ Port = ${PORT}                        # Port to run the server on UDP and TCP
 ResourceFolder = "/beammp/Resources"  # Resources folder
 EOF
 
-# Start the beammp server executable
+# If the additional ServerConfig.toml env variable is set
+# append it
+if [ -n "$ADDITIONAL_SERVER_CONFIG_TOML" ]; then
+  echo "${ADDITIONAL_SERVER_CONFIG_TOML}" >>/beammp/ServerConfig.toml
+fi
+
+# If debug enabled print the whole server config
+if [ -n "$DEBUG" ]; then
+  echo "Content of ServerConfig.toml"
+  cat /beammp/ServerConfig.toml
+fi
+
+# Start the BeamMP server executable
 /beammp/beammp-server

@@ -40,6 +40,7 @@ ENV MAP "/levels/gridmap_v2/info.json"
 ENV NAME "BeamMP New Server"
 ENV DESC "BeamMP Default Description"
 ENV AUTH_KEY ""
+ENV ADDITIONAL_SERVER_CONFIG_TOML ""
 
 # Create game server folder
 RUN mkdir -p /beammp/Resources/Server && mkdir -p /beammp/Resources/Client
