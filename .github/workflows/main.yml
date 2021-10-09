@@ -15,10 +15,10 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - name: Build image
+      - name: Build images
         run: |
           docker buildx create --use
-          docker buildx build -t rouhim/beammp-server --platform linux/amd64,linux/arm64,linux/arm/v7 --push .
+          docker buildx build -t rouhim/beammp-server --platform linux/amd64,linux/arm64,linux/arm/v7 .
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
@@ -26,6 +26,9 @@ jobs:
           exit-code: '1'
           ignore-unfixed: true
           severity: 'LOW,MEDIUM,HIGH,CRITICAL'
+      - name: Push images
+        run: |
+          docker buildx build -t rouhim/beammp-server --platform linux/amd64,linux/arm64,linux/arm/v7 --push .
       - name: Update docker hub description
         uses: peter-evans/dockerhub-description@v2
         with:
