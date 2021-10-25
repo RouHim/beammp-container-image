@@ -3,9 +3,6 @@
 ####################
 FROM alpine AS builder
 
-## Build args
-WORKDIR /
-
 # Setup required build dependencies
 RUN apk update && \
     apk add git make cmake g++ boost-dev lua5.3-dev zlib-dev rapidjson-dev curl-dev openssl-dev
@@ -43,12 +40,16 @@ ENV AUTH_KEY ""
 ENV ADDITIONAL_SERVER_CONFIG_TOML ""
 
 # Create game server folder
-RUN mkdir -p /beammp/Resources/Server && mkdir -p /beammp/Resources/Client
+RUN mkdir -p /beammp/Resources/Server /beammp/Resources/Client
 WORKDIR /beammp
 
 # Install game server required packages
 RUN apk update && \
     apk add --no-cache zlib lua5.3 libcrypto1.1 openssl libgcc libcurl
+
+# Copy the previously built executable
+COPY --from=builder /beammp/BeamMP-Server ./beammp-server
+RUN chmod +x beammp-server
 
 # Disable package manager
 RUN rm -f /sbin/apk && \
@@ -56,10 +57,6 @@ RUN rm -f /sbin/apk && \
     rm -rf /lib/apk && \
     rm -rf /usr/share/apk && \
     rm -rf /var/lib/apk
-
-# Copy the previously built executable
-COPY --from=builder /beammp/BeamMP-Server ./beammp-server
-RUN chmod +x beammp-server
 
 # Prepare user
 RUN addgroup -g 1000 -S beammp && adduser -u 1000 -S beammp -G beammp
