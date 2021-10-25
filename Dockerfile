@@ -1,11 +1,11 @@
 ####################
 #   Build Image    #
 ####################
-FROM alpine AS builder
+FROM alpine:3 AS builder
 
 # Setup required build dependencies
 RUN apk update && \
-    apk add git make cmake g++ boost-dev lua5.3-dev zlib-dev rapidjson-dev curl-dev openssl-dev
+    apk add --no-cache git make cmake g++ boost-dev lua5.3-dev zlib-dev rapidjson-dev curl-dev openssl-dev
 
 # Grab the latest released source code
 RUN git clone --recurse-submodules "https://github.com/BeamMP/BeamMP-Server" /beammp
@@ -24,8 +24,8 @@ RUN make -j $(nproc)
 ####################
 #    Run Image     #
 ####################
-FROM alpine
-MAINTAINER Rouven Himmelstein rouven@himmelstein.info
+FROM alpine:3
+LABEL maintainer="Rouven Himmelstein rouven@himmelstein.info"
 
 ## Game server parameter and their defaults
 ENV DEBUG "false"
@@ -65,4 +65,4 @@ USER beammp
 
 # Specify entrypoint
 COPY entrypoint.sh /
-ENTRYPOINT /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
