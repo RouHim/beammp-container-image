@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="logo.png" width="200">
+  <img src="https://raw.githubusercontent.com/RouHim/beammp-docker/main/logo.png" width="200">
 </p>
 
 <p align="center">
