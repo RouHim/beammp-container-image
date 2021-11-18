@@ -39,7 +39,8 @@ docker run --name beammp-server \
 
 ### docker-compose
 
-Check `docker-compose.yml` if interested. The configuration should be done within the `.env` file.
+First clone this repository and check `docker-compose.yml` if interested. 
+The configuration should be done within the `.env` file.
 
 To get started copy `.env.example` to `.env` and create the mod folder.
 
