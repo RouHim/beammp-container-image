@@ -27,8 +27,6 @@ jobs:
         with:
           image-ref: 'rouhim/beammp-server'
           exit-code: '1'
-          ignore-unfixed: true
-          severity: 'LOW,MEDIUM,HIGH,CRITICAL'
       - name: Push images
         run: |
           docker buildx build -t rouhim/beammp-server --platform linux/amd64,linux/arm64,linux/arm/v7 --push .
