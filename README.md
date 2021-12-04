@@ -21,6 +21,14 @@ Because there were no well-documented, alpine based BeamMP docker images out the
 BeamMP server is needed, because the prebuilt linux binary uses glibc as C standard library implementation (instead of
 musl).
 
+## Variants
+
+There are two [variants](https://hub.docker.com/r/rouhim/beammp-server/tags) of this docker image
+
+* **latest** - The nightly built [stable](https://github.com/BeamMP/BeamMP-Server/releases/latest) version of BeamMP
+* **unstable** - The nightly built [unstable](https://github.com/BeamMP/BeamMP-Server) version of BeamMP (reflecting
+  the [master](https://github.com/BeamMP/BeamMP-Server/tree/master) branch)
+
 ## Usage
 
 The sections below provides use cases for docker and docker-compose.
@@ -39,8 +47,8 @@ docker run --name beammp-server \
 
 ### docker-compose
 
-First clone this repository and check `docker-compose.yml` if interested. 
-The configuration should be done within the `.env` file.
+First clone this repository and check `docker-compose.yml` if interested. The configuration should be done within
+the `.env` file.
 
 To get started copy `.env.example` to `.env` and create the mod folder.
 
@@ -131,3 +139,4 @@ some_numbers = [1, 2, 3]
 - Official server installation guide: https://wiki.beammp.com/en/home/server-installation
 - Inspired by: https://github.com/mastamic-ian/BeamMP_docker
 - Built from: https://github.com/RouHim/beammp-docker
+- Built to: https://hub.docker.com/r/rouhim/beammp-server

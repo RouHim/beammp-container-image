@@ -2,6 +2,8 @@
 #   Build Image    #
 ####################
 FROM alpine:3 AS builder
+# Select branch of BeamMP to build, default is latest stable
+ARG BUILD_BRANCH
 
 # Setup required build dependencies
 RUN apk update && \
@@ -11,6 +13,11 @@ RUN apk update && \
 RUN git clone --recurse-submodules "https://github.com/BeamMP/BeamMP-Server" /beammp
 WORKDIR /beammp
 RUN git checkout --recurse-submodules $(git tag --sort=taggerdate | tail -1)
+
+# If BUILD_BRANCH is set, checkout the specified branch
+RUN [ -n $BUILD_BRANCH ] && \
+    echo "Building specific branch" && \
+    git checkout --recurse-submodules $BUILD_BRANCH
 
 # Build the server
 # We have to specify the lua path manually, because it is not set correctly during apk setup

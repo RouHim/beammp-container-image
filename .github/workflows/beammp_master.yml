@@ -1,3 +1,4 @@
+# This builds the master branch (UNSTABLE!) of beammp
 name: CI
 on:
   push:
@@ -8,6 +9,10 @@ on:
 jobs:
   build-docker-image:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_BUILDKIT: 1 # use the new docker build backend
+      BUILD_DEVELOPMENT_VARIANT: master # build the master (unstable) branch of beammp
+      IMAGE_TAG: unstable
     steps:
       - uses: actions/checkout@v2
       - name: Login to Docker Hub
@@ -18,17 +23,17 @@ jobs:
       - name: Build images
         run: |
           docker buildx create --use
-          docker buildx build -t rouhim/beammp-server --platform linux/amd64,linux/arm64,linux/arm/v7 .
+          docker buildx build -t rouhim/beammp-server:$IMAGE_TAG --platform linux/amd64,linux/arm64,linux/arm/v7 .
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'rouhim/beammp-server'
+          image-ref: 'rouhim/beammp-server:$IMAGE_TAG'
           exit-code: '1'
           ignore-unfixed: true
           severity: 'LOW,MEDIUM,HIGH,CRITICAL'
       - name: Push images
         run: |
-          docker buildx build -t rouhim/beammp-server --platform linux/amd64,linux/arm64,linux/arm/v7 --push .
+          docker buildx build -t rouhim/beammp-server:$IMAGE_TAG --platform linux/amd64,linux/arm64,linux/arm/v7 --push .
       - name: Update docker hub description
         uses: peter-evans/dockerhub-description@v2
         with:
