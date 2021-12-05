@@ -4,35 +4,28 @@
 #     This script tests the beammp-server docker image
 #
 ##################
-# abort with code 1 on any failure
-set -e
-
-# Function to
-cleanup() {
-  docker kill test-container
-}
 
 # Spin up a BeamMP server
-docker run -d --name test-container -e AUTH_KEY='c651d053-f8f3-4d25-b8d8-8fc4b02a60e1' rouhim/beammp-server
+echo "🚀 Spinning up a test container"
+docker run -d --name test-container -e AUTH_KEY='$BEAMMP_AUTH_KEY' rouhim/beammp-server
 
 # Wait some time
+echo "😴 sleeping 10 seconds"
 sleep 10
 
-# Test successful authentication
-docker logs test-container | grep -i "authenticated"
-if [ "$?" -ne "0" ]; then
-  echo "Could not authenticate:"
-  docker logs test-container && docker kill test-container
-  exit 1
-fi
-
 # Test for errors in log
-docker logs test-container | grep -i "[ERROR]"
-if [ "$?" -ne "0" ]; then
-  echo "Found errors in server.log:"
-  docker logs test-container && docker kill test-container
+echo "🧪 Testing for errors"
+docker logs test-container | grep -i '\[ERROR\]'
+if [ "$?" -eq 0 ]; then
+  echo "❌ Found errors in server.log:"
+  echo "======================"
+  docker logs test-container
+  echo "======================"
+  docker stop test-container && docker rm test-container
   exit 1
 fi
 
-cleanup
+# Cleanup and exit with 0
+docker stop test-container && docker rm test-container
+echo "✅ Done, everything looks good"
 exit 0

@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DOCKER_BUILDKIT: 1 # use the new docker build backend
+      BEAMMP_AUTH_KEY: ${{ secrets.BEAMMP_AUTH_KEY }}
     steps:
       - uses: actions/checkout@v2
       - name: Login to Docker Hub
@@ -31,6 +32,9 @@ jobs:
         with:
           image-ref: 'rouhim/beammp-server'
           exit-code: '1'
+      - name: Test the built image
+        run: |
+          bash test-image.sh
       - name: Push images
         run: |
           docker buildx build -t rouhim/beammp-server --platform linux/amd64,linux/arm64,linux/arm/v7 --push .
