@@ -21,12 +21,13 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Build images
         run: |
-          docker buildx create --use
-          docker buildx build -t rouhim/beammp-server:unstable --platform linux/amd64,linux/arm64,linux/arm/v7 .
+          docker build -t docker.io/rouhim/beammp-server:unstable .
+      #          docker buildx create --use
+      #          docker buildx build -t rouhim/beammp-server:unstable --platform linux/amd64,linux/arm64,linux/arm/v7 .
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'rouhim/beammp-server:unstable'
+          image-ref: 'docker.io/rouhim/beammp-server:unstable'
           exit-code: '1'
       - name: Push images
         run: |
