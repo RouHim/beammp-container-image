@@ -22,11 +22,11 @@ jobs:
       - name: Build images
         run: |
           docker buildx create --use
-          docker buildx build -t docker.io/rouhim/beammp-server:unstable --platform linux/amd64,linux/arm64,linux/arm/v7 .
+          docker buildx build --load -t rouhim/beammp-server:unstable --platform linux/amd64,linux/arm64,linux/arm/v7 .
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'docker.io/rouhim/beammp-server:unstable'
+          image-ref: 'rouhim/beammp-server:unstable'
           exit-code: '1'
       - name: Push images
         run: |
