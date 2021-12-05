@@ -6,8 +6,8 @@
 ##################
 
 # Spin up a BeamMP server
-echo "🚀 Spinning up a test container"
-docker run -d --name test-container -e AUTH_KEY='$BEAMMP_AUTH_KEY' rouhim/beammp-server
+echo "🚀 Spinning up a test container $BEAMMP_AUTH_KEY"
+docker run -d --name test-container -e AUTH_KEY="$BEAMMP_AUTH_KEY" rouhim/beammp-server
 
 # Wait some time
 echo "😴 sleeping 10 seconds"
@@ -17,7 +17,7 @@ sleep 10
 echo "🧪 Testing for errors"
 docker logs test-container | grep -i '\[ERROR\]'
 if [ "$?" -eq 0 ]; then
-  echo "❌ Found errors in server.log:"
+  echo "❌ Found errors in server log:"
   echo "======================"
   docker logs test-container
   echo "======================"
