@@ -33,6 +33,8 @@ jobs:
           image-ref: 'rouhim/beammp-server'
           exit-code: '1'
       - name: Test the built image
+        env:
+          BEAMMP_AUTH_KEY: ${{ secrets.BEAMMP_AUTH_KEY }}
         run: |
           bash test-image.sh
       - name: Push images

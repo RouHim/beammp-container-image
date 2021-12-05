@@ -6,7 +6,7 @@
 ##################
 
 # Spin up a BeamMP server
-echo "🚀 Spinning up a test container $BEAMMP_AUTH_KEY"
+echo "🚀 Spinning up a test container"
 docker run -d --name test-container -e AUTH_KEY="$BEAMMP_AUTH_KEY" rouhim/beammp-server
 
 # Wait some time

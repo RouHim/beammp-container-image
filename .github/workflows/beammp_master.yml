@@ -12,7 +12,6 @@ jobs:
     env:
       DOCKER_BUILDKIT: 1 # use the new docker build backend
       BUILD_DEVELOPMENT_VARIANT: master # build the master (unstable) branch of beammp
-      BEAMMP_AUTH_KEY: ${{ secrets.BEAMMP_AUTH_KEY }}
     steps:
       - uses: actions/checkout@v2
       - name: Login to Docker Hub
@@ -34,6 +33,8 @@ jobs:
           image-ref: 'rouhim/beammp-server:unstable'
           exit-code: '1'
       - name: Test the built image
+        env:
+          BEAMMP_AUTH_KEY: ${{ secrets.BEAMMP_AUTH_KEY }}
         run: |
           bash test-image.sh
       - name: Push images
