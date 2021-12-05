@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DOCKER_BUILDKIT: 1 # use the new docker build backend
+      IMAGE_NAME: rouhim/beammp-server
     steps:
       - uses: actions/checkout@v2
       - name: Login to Docker Hub
@@ -19,17 +20,21 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Build images
+        # 1. create docker buildx builder instance
+        # 2. build for all platforms
+        # 3. load amd64 image in: docker images
         run: |
           docker buildx create --use
-          docker buildx build -t rouhim/beammp-server --platform linux/amd64,linux/arm64,linux/arm/v7 .
+          docker buildx build -t $IMAGE_NAME --platform linux/amd64,linux/arm64,linux/arm/v7 .           
+          docker buildx build --load -t $IMAGE_NAME .
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'rouhim/beammp-server'
+          image-ref: '$IMAGE_NAME'
           exit-code: '1'
       - name: Push images
         run: |
-          docker buildx build -t rouhim/beammp-server --platform linux/amd64,linux/arm64,linux/arm/v7 --push .
+          docker buildx build -t $IMAGE_NAME --platform linux/amd64,linux/arm64,linux/arm/v7 --push .
       - name: Update docker hub description
         uses: peter-evans/dockerhub-description@v2
         with:
