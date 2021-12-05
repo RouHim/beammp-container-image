@@ -1,7 +1,7 @@
 ####################
 #   Build Image    #
 ####################
-FROM alpine:3 AS builder
+FROM alpine AS builder
 # Select branch of BeamMP to build, default is latest stable
 ARG BUILD_BRANCH
 
@@ -31,7 +31,7 @@ RUN make -j $(nproc)
 ####################
 #    Run Image     #
 ####################
-FROM alpine:3
+FROM alpine
 LABEL maintainer="Rouven Himmelstein rouven@himmelstein.info"
 
 ## Game server parameter and their defaults

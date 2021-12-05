@@ -7,7 +7,7 @@
 
 # Spin up a BeamMP server
 echo "🚀 Spinning up a test container"
-docker run -d --name test-container -e AUTH_KEY="$BEAMMP_AUTH_KEY" $1
+docker run -d --name test-container -e AUTH_KEY="$BEAMMP_AUTH_KEY" "$1"
 
 # Wait some time
 echo "😴 sleeping 10 seconds"
