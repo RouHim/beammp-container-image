@@ -31,7 +31,7 @@ if [ -n "$ADDITIONAL_SERVER_CONFIG_TOML" ]; then
 fi
 
 # If debug enabled print the whole server config
-if [ -n "$DEBUG" ]; then
+if [ "$DEBUG" = "true" ]; then
   echo "Content of ServerConfig.toml"
   cat /beammp/ServerConfig.toml
 fi
