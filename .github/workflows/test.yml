@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DOCKER_BUILDKIT: 1 # use the new docker build backend
-      BEAMMP_AUTH_KEY: ${{ secrets.BEAMMP_AUTH_KEY }}
+      TEST_ME: hello
     steps:
       - uses: actions/checkout@v2
       - name: Login to Docker Hub
@@ -18,8 +18,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Test the built image
+        env:
+          BEAMMP_AUTH_KEY: ${{ secrets.BEAMMP_AUTH_KEY }}
         run: |
           env
           echo "${{ secrets.BEAMMP_AUTH_KEY }}"
+          echo "$BEAMMP_AUTH_KEY"
           docker pull rouhim/beammp-server
           bash test-image.sh
