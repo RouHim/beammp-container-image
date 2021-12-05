@@ -12,6 +12,7 @@ jobs:
     env:
       DOCKER_BUILDKIT: 1 # use the new docker build backend
       BUILD_DEVELOPMENT_VARIANT: master # build the master (unstable) branch of beammp
+      IMAGE_NAME: rouhim/beammp-server:unstable
     steps:
       - uses: actions/checkout@v2
       - name: Login to Docker Hub
@@ -20,9 +21,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Build images
+        # 1. create docker buildx builder instance
+        # 2. build for all platforms
+        # 3. load amd64 image in: docker images
         run: |
           docker buildx create --use
-          docker buildx build --load -t rouhim/beammp-server:unstable --platform linux/amd64,linux/arm64,linux/arm/v7 .
+          docker buildx build -t rouhim/beammp-server:unstable --platform linux/amd64,linux/arm64,linux/arm/v7 .           
+          docker buildx build --load -t rouhim/beammp-server:unstable .
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
