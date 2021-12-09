@@ -10,14 +10,19 @@ RUN apk update && \
     apk add --no-cache git make cmake g++ boost-dev lua5.3-dev zlib-dev rapidjson-dev curl-dev openssl-dev
 
 # Grab the latest released source code
-RUN git clone --recurse-submodules "https://github.com/BeamMP/BeamMP-Server" /beammp
+RUN git clone -j$(nproc) --recurse-submodules "https://github.com/RouHim/BeamMP-Server" /beammp
 WORKDIR /beammp
-RUN git checkout --recurse-submodules $(git tag --sort=taggerdate | tail -1)
+
+# Switch to the latest tag
+RUN git checkout $(git tag --sort=taggerdate | tail -1)
 
 # If BUILD_BRANCH is set, checkout the specified branch
 RUN [ -n $BUILD_BRANCH ] && \
     echo "Building specific branch" && \
-    git checkout --recurse-submodules $BUILD_BRANCH
+    git checkout $BUILD_BRANCH
+
+# Ensure all git submodules are initialized
+RUN git submodule update --init --recursive
 
 # Build the server
 # We have to specify the lua path manually, because it is not set correctly during apk setup
