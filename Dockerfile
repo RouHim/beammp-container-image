@@ -18,7 +18,6 @@ RUN git checkout $(git tag --sort=taggerdate | tail -1)
 
 # If BUILD_BRANCH is set, checkout the specified branch
 RUN [ -n $BUILD_BRANCH ] && \
-    echo "Building specific branch" && \
     git checkout $BUILD_BRANCH
 
 # Ensure all git submodules are initialized
