@@ -132,7 +132,7 @@ some_numbers = [1, 2, 3]
 > Note that the single quotation marks are important at the beginning and end.
 > If you want to use single quotes in the toml value they must be escaped with a backslash: `key = "this is a \'quote\'"`
 
-## Used materials
+## Resources
 
 - BeamMP server repository: https://github.com/BeamMP/BeamMP-Server
 - Official server maintenance guide: https://wiki.beammp.com/en/home/server-maintenance
