@@ -10,7 +10,7 @@ RUN apk update && \
     apk add --no-cache git make cmake g++ boost-dev lua5.3-dev zlib-dev rapidjson-dev curl-dev openssl-dev
 
 # Grab the latest released source code
-RUN git clone -j$(nproc) --recurse-submodules "https://github.com/RouHim/BeamMP-Server" /beammp
+RUN git clone -j$(nproc) --recurse-submodules "https://github.com/BeamMP/BeamMP-Server" /beammp
 WORKDIR /beammp
 
 # Switch to the latest tag
