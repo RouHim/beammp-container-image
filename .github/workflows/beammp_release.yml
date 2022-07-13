@@ -1,5 +1,5 @@
 # This builds the latest stable release version of beammp
-name: CI
+name: Release Pipe
 on:
   push:
     branches: [ main ]
