@@ -1,5 +1,5 @@
 # This builds the master branch (UNSTABLE!) of beammp
-name: CI
+name: Unstable Release Pipe
 on:
   push:
     branches: [ main ]
