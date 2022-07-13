@@ -3,7 +3,8 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/RouHim/beammp-docker/actions/workflows/beammp_release.yml"><img src="https://github.com/RouHim/beammp-docker/actions/workflows/beammp_release.yml/badge.svg?branch=main" alt="CI"></a>
+    <a href="https://github.com/RouHim/beammp-docker/actions/workflows/beammp_release.yml"><img src="https://github.com/RouHim/beammp-docker/actions/workflows/beammp_release.yml/badge.svg?branch=main" alt="Release Pipe"></a>
+    <a href="https://github.com/RouHim/beammp-docker/actions/workflows/beammp_unstable.yml"><img src="https://github.com/RouHim/beammp-docker/actions/workflows/beammp_unstable.yml/badge.svg?branch=main" alt="Unstable release Pipe"></a>
     <a href="https://hub.docker.com/r/rouhim/beammp-server"><img src="https://img.shields.io/docker/pulls/rouhim/beammp-server.svg" alt="Docker Hub pulls"></a>
     <a href="https://hub.docker.com/r/rouhim/beammp-server"><img src="https://img.shields.io/docker/image-size/rouhim/beammp-server" alt="Docker Hub size"></a>
     <a href="https://github.com/aquasecurity/trivy"><img src="https://img.shields.io/badge/trivy-protected-blue" alt="trivy"></a>
