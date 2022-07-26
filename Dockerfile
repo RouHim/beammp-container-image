@@ -14,7 +14,7 @@ RUN git clone -j$(nproc) --recurse-submodules "https://github.com/BeamMP/BeamMP-
 WORKDIR /beammp
 
 # Switch to the latest tag
-RUN git checkout $(git tag --sort=taggerdate | tail -1)
+RUN git checkout $(git tag --sort=creatordate | tail -1)
 
 # If BUILD_BRANCH is set, checkout the specified branch
 RUN [ -n $BUILD_BRANCH ] && \
