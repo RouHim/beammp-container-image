@@ -33,6 +33,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'rouhim/beammp-server'
+          ignore-unfixed: true
           exit-code: '1'
       - name: Test the built image
         env:
