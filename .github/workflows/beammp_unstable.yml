@@ -25,8 +25,10 @@ jobs:
         # 3. load amd64 image in: docker images
         run: |
           docker buildx create --use
-          docker buildx build -t rouhim/beammp-server:unstable --platform linux/amd64,linux/arm64,linux/arm/v7 .           
-          docker buildx build --load -t rouhim/beammp-server:unstable .
+          docker buildx build -f glibc.Dockerfile -t rouhim/beammp-server:unstable --platform linux/amd64 .           
+          docker buildx build -f glibc.Dockerfile --load -t rouhim/beammp-server:unstable .
+#          docker buildx build -t rouhim/beammp-server:unstable --platform linux/amd64,linux/arm64,linux/arm/v7 .
+#          docker buildx build --load -t rouhim/beammp-server:unstable .
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
@@ -39,4 +41,5 @@ jobs:
           bash test-image.sh rouhim/beammp-server:unstable
       - name: Push images
         run: |
-          docker buildx build -t rouhim/beammp-server:unstable --platform linux/amd64,linux/arm64,linux/arm/v7 --push .
+          docker buildx build -f glibc.Dockerfile -t rouhim/beammp-server:unstable --platform linux/amd64 --push .
+#          docker buildx build -t rouhim/beammp-server:unstable --platform linux/amd64,linux/arm64,linux/arm/v7 --push .
