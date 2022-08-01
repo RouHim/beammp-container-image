@@ -17,6 +17,10 @@
     game server and shows its usage in a docker-compose environment.
 </p>
 
+## Current State
+There is currently a problem in the beammp server build that the musl build is not supported: https://github.com/BeamMP/BeamMP-Server/issues/117.
+Until this issue is resolved, the amd64 build will be replaced with a Debian variant and the arm builds will be aborted until the issue is resolved.
+
 ## Motivation
 
 Because there were no well-documented, alpine based BeamMP docker images out there, I did one by myself. Building the
