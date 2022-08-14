@@ -13,6 +13,7 @@ env:
   CONTAINER_FILE: ./glibc.Containerfile
   IMAGE_NAME: rouhim/beammp-server
   TAG: latest
+  ARCHS: amd64
 
 jobs:
 
@@ -45,7 +46,7 @@ jobs:
         with:
           image: ${{ env.IMAGE_NAME }}
           tags: ${{ env.TAG }}
-          archs: amd64, arm64
+          archs: ${{ env.ARCHS }}
           oci: true
           containerfiles: |
             ${{ env.CONTAINER_FILE }}
