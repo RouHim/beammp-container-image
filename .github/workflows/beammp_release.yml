@@ -12,7 +12,7 @@ on:
 env:
   CONTAINER_FILE: ./glibc.Containerfile
   IMAGE_NAME: rouhim/beammp-server
-  TAGS: latest
+  TAG: latest
 
 jobs:
 
@@ -44,14 +44,14 @@ jobs:
         uses: redhat-actions/buildah-build@v2
         with:
           image: ${{ env.IMAGE_NAME }}
-          tags: ${{ env.TAGS }}
+          tags: ${{ env.TAG }}
           archs: amd64
           oci: true
           containerfiles: |
             ${{ env.CONTAINER_FILE }}
 
       - name: Save container image
-        run: podman save -o beammp.tar ${{ steps.build-container-image.outputs.image-with-tag }}
+        run: podman save -o beammp.tar ${{ env.IMAGE_NAME }}:${{ env.TAG }}
 
       - name: Upload container image
         uses: actions/upload-artifact@v3
@@ -125,7 +125,7 @@ jobs:
         uses: redhat-actions/push-to-registry@v2
         with:
           image: ${{ env.IMAGE_NAME }}
-          tags: ${{ env.TAGS }}
+          tags: ${{ env.TAG }}
           registry: docker.io
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
