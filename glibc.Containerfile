@@ -1,7 +1,7 @@
 ####################
 #   Build Image    #
 ####################
-FROM ubuntu AS builder
+FROM ubuntu:22.10 AS builder
 # Select branch of BeamMP to build, default is latest stable
 ARG BUILD_BRANCH
 
@@ -35,7 +35,7 @@ RUN make -j $(nproc)
 ####################
 #    Run Image     #
 ####################
-FROM ubuntu
+FROM ubuntu:22.10
 LABEL maintainer="Rouven Himmelstein rouven@himmelstein.info"
 
 ## Game server parameter and their defaults
