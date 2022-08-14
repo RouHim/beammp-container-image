@@ -107,9 +107,6 @@ jobs:
         run: |
           bash test-image.sh rouhim/beammp-server:latest
 
-      - name: Cleanup
-        run: rm image.tar && podman kill test-container && podman rm test-container
-
   push-container:
     name: Push container image
     needs: [ scan-container, test-container ]
