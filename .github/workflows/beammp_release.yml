@@ -51,13 +51,13 @@ jobs:
             ${{ env.CONTAINER_FILE }}
 
       - name: Save container image
-        run: podman save -o beammp.tar ${{ env.IMAGE_NAME }}:${{ env.TAG }}
+        run: podman save -o image.tar ${{ env.IMAGE_NAME }}:${{ env.TAG }}
 
       - name: Upload container image
         uses: actions/upload-artifact@v3
         with:
           name: container-image
-          path: beammp.tar
+          path: image.tar
 
 
   scan-container:
@@ -72,12 +72,13 @@ jobs:
           path: .
 
       - name: Restore container image
-        run: podman load --input beammp.tar
+        run: podman load --input image.tar
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'rouhim/this-week-in-past:latest'
+          scan-type: 'image'
+          input: image.tar
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
@@ -88,6 +89,9 @@ jobs:
     needs: build-container-image
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Download container Image
         uses: actions/download-artifact@v3
         with:
@@ -95,7 +99,7 @@ jobs:
           path: .
 
       - name: Restore container image
-        run: podman load --input beammp.tar
+        run: podman load --input image.tar
 
       - name: Test the built image
         env:
@@ -104,7 +108,7 @@ jobs:
           bash test-image.sh rouhim/beammp-server:latest
 
       - name: Cleanup
-        run: rm beammp.tar && podman kill test-container && podman rm test-container
+        run: rm image.tar && podman kill test-container && podman rm test-container
 
   push-container:
     name: Push container image
@@ -119,7 +123,7 @@ jobs:
           path: .
 
       - name: Restore container image
-        run: podman load --input beammp.tar
+        run: podman load --input image.tar
 
       - name: Push To docker hub
         uses: redhat-actions/push-to-registry@v2
