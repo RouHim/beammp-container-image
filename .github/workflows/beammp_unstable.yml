@@ -50,7 +50,7 @@ jobs:
           archs: ${{ env.ARCHS }}
           build-args: |
             ${{ env.BUILD_ARGS }}
-          oci: true # To be maximally compatible, use docker instead of oci
+          oci: true
           containerfiles: |
             ${{ env.CONTAINER_FILE }}
 

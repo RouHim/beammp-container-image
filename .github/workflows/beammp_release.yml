@@ -47,7 +47,7 @@ jobs:
           image: ${{ env.IMAGE_NAME }}
           tags: ${{ env.TAG }}
           archs: ${{ env.ARCHS }}
-          oci: docker # To be maximally compatible, use docker instead of oci
+          oci: true
           containerfiles: |
             ${{ env.CONTAINER_FILE }}
 

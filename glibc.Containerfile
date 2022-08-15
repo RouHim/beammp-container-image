@@ -62,7 +62,13 @@ WORKDIR /beammp
 
 # Install game server required packages
 RUN apt update && \
-    apt install -y zlib1g liblua5.3-0 libcrypto++8 openssl libcurl4
+    apt install -y zlib1g liblua5.3-0 libcrypto++8 openssl libcurl4 wget
+
+# Install openssl 1.1
+RUN wget http://nz2.archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.16_amd64.deb && \
+    dpkg -i *.deb && \
+    rm *.deb && \
+    apt purge -y wget
 
 # Copy the previously built executable
 COPY --from=builder /beammp/BeamMP-Server ./beammp-server
