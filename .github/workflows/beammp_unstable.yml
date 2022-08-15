@@ -14,7 +14,7 @@ env:
   IMAGE_NAME: rouhim/beammp-server
   TAG: unstable
   ARCHS: amd64
-  BUILD_DEVELOPMENT_VARIANT: master
+  BUILD_BRANCH: master
 
 jobs:
 
@@ -48,6 +48,7 @@ jobs:
           image: ${{ env.IMAGE_NAME }}
           tags: ${{ env.TAG }}
           archs: ${{ env.ARCHS }}
+          build-args:  ${{ env.BUILD_BRANCH }}
           oci: true
           containerfiles: |
             ${{ env.CONTAINER_FILE }}
