@@ -68,12 +68,8 @@ RUN apt update && \
 COPY --from=builder /beammp/BeamMP-Server ./beammp-server
 RUN chmod +x beammp-server
 
-# Disable package manager
-RUN rm -f /sbin/apk && \
-    rm -rf /etc/apk && \
-    rm -rf /lib/apk && \
-    rm -rf /usr/share/apk && \
-    rm -rf /var/lib/apk
+# Disable apt-get package manager
+RUN rm -rf /var/lib/apt/lists/*
 
 # Prepare user
 RUN groupadd -g 1000 someone && \
