@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# This shell script is the entrypoint of the 'rouhim/beammp-server' docker image.
+# This shell script is the entrypoint of the 'rouhim/beammp-server' container image.
 #
 # It does the following:
 #   1. Recreate the Server.cfg file everytime the container starts with the passed environment variables
