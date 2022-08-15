@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/RouHim/beammp-container-image/main/logo.png" width="200">
+  <img src="https://raw.githubusercontent.com/RouHim/beammp-container-image/main/logo.svg" width="250">
 </p>
 
 <p align="center">
@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-    This project provides a small, alpine based, container image for the <a href="https://beammp.com">BeamMP</a> 
+    This project provides a container image for the <a href="https://beammp.com">BeamMP</a> 
     game server and shows its usage in a docker-compose environment.
 </p>
 
@@ -23,7 +23,7 @@ Until this issue is resolved, the amd64 build will be replaced with a Debian var
 
 ## Motivation
 
-Because there were no well-documented, alpine based BeamMP container images out there, I did one by myself. Building the
+Because there were no well-documented BeamMP server container images out there, I did one by myself. Building the
 BeamMP server is needed, because the prebuilt linux binary uses glibc as C standard library implementation (instead of
 musl).
 
