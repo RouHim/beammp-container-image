@@ -1,6 +1,6 @@
 .idea
 .vs
-.env
+*.env
 mods
 client-mods
 server-mods

@@ -2,52 +2,132 @@
 name: Release Pipe
 on:
   push:
-    branches: [ main ]
   workflow_dispatch: # Allows you to run this workflow manually from the Actions tab
+  pull_request:
+    types:
+      - opened
   schedule:
     - cron: "0 0 * * 0" # weekly at sunday night
+
+env:
+  CONTAINER_FILE: ./glibc.Containerfile
+  IMAGE_NAME: rouhim/beammp-server
+  TAG: latest
+  ARCHS: amd64
+
 jobs:
-  build-docker-image:
+
+  check-containerfile:
+    name: Check container file
     runs-on: ubuntu-latest
-    env:
-      DOCKER_BUILDKIT: 1 # use the new docker build backend
-      BEAMMP_AUTH_KEY: ${{ secrets.BEAMMP_AUTH_KEY }}
     steps:
-      - uses: actions/checkout@v3
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - name: Build images
-        # 1. create docker buildx builder instance
-        # 2. build for all platforms
-        # 3. load amd64 image in: docker images
-        run: |
-          docker buildx create --use
-          docker buildx build -f glibc.Dockerfile -t rouhim/beammp-server --platform linux/amd64 .           
-          docker buildx build -f glibc.Dockerfile --load -t rouhim/beammp-server .
-#          docker buildx build -t rouhim/beammp-server --platform linux/amd64,linux/arm64,linux/arm/v7 .
-#          docker buildx build --load -t rouhim/beammp-server .
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'rouhim/beammp-server'
+          scan-type: 'config'
+          hide-progress: false
+          format: 'table'
+          exit-code: '1'
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
+
+  build-container-image:
+    needs: check-containerfile
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build container image
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: ${{ env.IMAGE_NAME }}
+          tags: ${{ env.TAG }}
+          archs: ${{ env.ARCHS }}
+          oci: true
+          containerfiles: |
+            ${{ env.CONTAINER_FILE }}
+
+      - name: Save container image
+        run: podman save -o image.tar ${{ env.IMAGE_NAME }}:${{ env.TAG }}
+
+      - name: Upload container image
+        uses: actions/upload-artifact@v3
+        with:
+          name: container-image
+          path: image.tar
+
+
+  scan-container:
+    name: Scan container for vulnerabilities
+    needs: build-container-image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download container image
+        uses: actions/download-artifact@v3
+        with:
+          name: container-image
+          path: .
+
+      - name: Restore container image
+        run: podman load --input image.tar
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'image'
+          input: image.tar
+          format: 'table'
           exit-code: '1'
+          ignore-unfixed: true
+          severity: 'CRITICAL,HIGH'
+
+  test-container:
+    name: Test container image
+    needs: build-container-image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Download container Image
+        uses: actions/download-artifact@v3
+        with:
+          name: container-image
+          path: .
+
+      - name: Restore container image
+        run: podman load --input image.tar
+
       - name: Test the built image
         env:
           BEAMMP_AUTH_KEY: ${{ secrets.BEAMMP_AUTH_KEY }}
         run: |
-          bash test-image.sh rouhim/beammp-server
-      - name: Push images
-        run: |
-          docker buildx build -f glibc.Dockerfile -t rouhim/beammp-server --platform linux/amd64 --push .
-#          docker buildx build -t rouhim/beammp-server --platform linux/amd64,linux/arm64,linux/arm/v7 --push .
-      - name: Update docker hub description
-        uses: peter-evans/dockerhub-description@v3
+          bash test-image.sh rouhim/beammp-server:latest
+
+  push-container:
+    name: Push container image
+    needs: [ scan-container, test-container ]
+    runs-on: ubuntu-latest
+    if: github.ref_name == 'main' # only push the image if the branch is main
+    steps:
+      - name: Download container image
+        uses: actions/download-artifact@v3
         with:
+          name: container-image
+          path: .
+
+      - name: Restore container image
+        run: podman load --input image.tar
+
+      - name: Push To docker hub
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          image: ${{ env.IMAGE_NAME }}
+          tags: ${{ env.TAG }}
+          registry: docker.io
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: rouhim/beammp-server
