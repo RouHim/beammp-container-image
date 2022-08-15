@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/RouHim/beammp-docker/main/logo.png" width="200">
+  <img src="https://raw.githubusercontent.com/RouHim/beammp-container-image/main/logo.png" width="200">
 </p>
 
 <p align="center">
-    <a href="https://github.com/RouHim/beammp-docker/actions/workflows/beammp_release.yml"><img src="https://github.com/RouHim/beammp-docker/actions/workflows/beammp_release.yml/badge.svg?branch=main" alt="Release Pipe"></a>
-    <a href="https://github.com/RouHim/beammp-docker/actions/workflows/beammp_unstable.yml"><img src="https://github.com/RouHim/beammp-docker/actions/workflows/beammp_unstable.yml/badge.svg?branch=main" alt="Unstable release Pipe"></a>
+    <a href="https://github.com/RouHim/beammp-container-image/actions/workflows/beammp_release.yml"><img src="https://github.com/RouHim/beammp-container-image/actions/workflows/beammp_release.yml/badge.svg?branch=main" alt="Release Pipe"></a>
+    <a href="https://github.com/RouHim/beammp-container-image/actions/workflows/beammp_unstable.yml"><img src="https://github.com/RouHim/beammp-container-image/actions/workflows/beammp_unstable.yml/badge.svg?branch=main" alt="Unstable release Pipe"></a>
     <a href="https://hub.docker.com/r/rouhim/beammp-server"><img src="https://img.shields.io/docker/pulls/rouhim/beammp-server.svg" alt="Docker Hub pulls"></a>
     <a href="https://hub.docker.com/r/rouhim/beammp-server"><img src="https://img.shields.io/docker/image-size/rouhim/beammp-server" alt="Docker Hub size"></a>
     <a href="https://github.com/aquasecurity/trivy"><img src="https://img.shields.io/badge/trivy-protected-blue" alt="trivy"></a>
@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-    This project provides a small, alpine based, docker container for the <a href="https://beammp.com">BeamMP</a> 
+    This project provides a small, alpine based, container image for the <a href="https://beammp.com">BeamMP</a> 
     game server and shows its usage in a docker-compose environment.
 </p>
 
@@ -23,7 +23,7 @@ Until this issue is resolved, the amd64 build will be replaced with a Debian var
 
 ## Motivation
 
-Because there were no well-documented, alpine based BeamMP docker images out there, I did one by myself. Building the
+Because there were no well-documented, alpine based BeamMP container images out there, I did one by myself. Building the
 BeamMP server is needed, because the prebuilt linux binary uses glibc as C standard library implementation (instead of
 musl).
 
@@ -144,5 +144,5 @@ some_numbers = [1, 2, 3]
 - Official server maintenance guide: https://wiki.beammp.com/en/home/server-maintenance
 - Official server installation guide: https://wiki.beammp.com/en/home/server-installation
 - Inspired by: https://github.com/mastamic-ian/BeamMP_docker
-- Built from: https://github.com/RouHim/beammp-docker
+- Built from: https://github.com/RouHim/beammp-container-image
 - Built to: https://hub.docker.com/r/rouhim/beammp-server
