@@ -19,7 +19,7 @@ RUN git checkout $(git tag --sort=creatordate | tail -1)
 # If BUILD_BRANCH is set, checkout the specified branch
 RUN if [ -z "$BUILD_BRANCH" ]; \
     then \
-        echo "No build branch defined"; \
+        echo "No build branch defined, working on:"; \
         git tag --sort=creatordate | tail -1; \
     else \
         echo "Build branch is set to: $BUILD_BRANCH"; \
