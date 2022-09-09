@@ -29,7 +29,7 @@ musl).
 
 ## Variants
 
-There are [two tags](https://hub.docker.com/r/rouhim/beammp-server/tags) of this docker image available, that are built nightly:
+There are [two tags](https://hub.docker.com/r/rouhim/beammp-server/tags) of this container image available, that are built nightly:
 
 * **latest** - [Stable](https://github.com/BeamMP/BeamMP-Server/releases/latest) version of BeamMP
 * **unstable** - [Unstable](https://github.com/BeamMP/BeamMP-Server) version of BeamMP (reflecting
