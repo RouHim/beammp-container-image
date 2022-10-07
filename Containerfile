@@ -1,7 +1,7 @@
 ####################
 #   Build Image    #
 ####################
-FROM alpine:3 AS builder
+FROM docker.io/alpine:3 AS builder
 # Select branch of BeamMP to build, default is latest stable
 ARG BUILD_BRANCH
 
@@ -33,7 +33,7 @@ RUN git submodule update --init --recursive
 # We have to specify the lua path manually, because it is not set correctly during apk setup
 # We use Release mode to reduce binary size, improve speed and remove debug symbols automatically
 # We are disabling the sentry backend as it is not needed for our custom build.
-RUN cmake -DLUA_LIBRARY=/usr/lib/lua5.3/liblua.so -DCMAKE_BUILD_TYPE=Release -DSENTRY_BACKEND=none .
+RUN cmake -DLUA_LIBRARY=/usr/lib/lua5.3/liblua.so -DCMAKE_BUILD_TYPE=Release -DSENTRY_BACKEND=none -DBUILD_TESTS=OFF .
 
 # Build the 'BeamMP-Server' executable using all available CPU cores
 RUN make -j $(nproc)
@@ -41,7 +41,7 @@ RUN make -j $(nproc)
 ####################
 #    Run Image     #
 ####################
-FROM alpine:3
+FROM docker.io/alpine:3
 LABEL maintainer="Rouven Himmelstein rouven@himmelstein.info"
 
 ## Game server parameter and their defaults
