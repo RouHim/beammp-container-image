@@ -56,6 +56,8 @@ jobs:
           image: ${{ env.IMAGE_NAME }}
           tags: ${{ env.IMAGE_TAG }}_${{ matrix.container-image-arch }}
           archs: ${{ matrix.container-image-arch }}
+          build-args: |
+            ${{ env.BUILD_ARGS }}
           containerfiles: |
             ${{ env.CONTAINER_FILE }}
 
