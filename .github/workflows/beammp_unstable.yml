@@ -14,7 +14,7 @@ env:
   IMAGE_NAME: rouhim/beammp-server
   TAG: unstable
   ARCHS: amd64
-  BUILD_ARGS: BUILD_BRANCH=master
+  BUILD_ARGS: BUILD_BRANCH=static-build # TODO: change me to 'master' before merging this PR
 
 jobs:
 
