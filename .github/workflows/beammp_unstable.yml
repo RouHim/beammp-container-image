@@ -17,6 +17,7 @@ env:
 
 jobs:
 
+
   check-containerfile:
     name: Check container file
     runs-on: ubuntu-latest
@@ -33,6 +34,7 @@ jobs:
           exit-code: '1'
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
+
 
   build-container-image:
     needs: check-containerfile
@@ -92,6 +94,7 @@ jobs:
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
 
+
   test-container:
     name: Test container image
     needs: build-container-image
@@ -114,6 +117,7 @@ jobs:
           BEAMMP_AUTH_KEY: ${{ secrets.BEAMMP_AUTH_KEY }}
         run: |
           bash test-image.sh rouhim/beammp-server:latest
+
 
   push-container:
     name: Push container image

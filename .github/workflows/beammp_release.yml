@@ -1,5 +1,5 @@
-# This builds the latest stable release version of beammp
-name: Release Pipe
+# This builds the master branch (UNSTABLE!) of beammp
+name: Unstable Release Pipe
 on:
   push:
   workflow_dispatch: # Allows you to run this workflow manually from the Actions tab
@@ -12,10 +12,10 @@ on:
 env:
   CONTAINER_FILE: ./Containerfile
   IMAGE_NAME: rouhim/beammp-server
-  TAG: latest
-  ARCHS: amd64
+  IMAGE_TAG: latest
 
 jobs:
+
 
   check-containerfile:
     name: Check container file
@@ -34,31 +34,40 @@ jobs:
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
 
+
   build-container-image:
     needs: check-containerfile
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        container-image-arch: [ amd64, arm, arm64 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: ${{ matrix.container-image-arch }}
 
       - name: Build container image
         uses: redhat-actions/buildah-build@v2
         with:
           image: ${{ env.IMAGE_NAME }}
-          tags: ${{ env.TAG }}
-          archs: ${{ env.ARCHS }}
-          oci: true
+          tags: ${{ env.IMAGE_TAG }}_${{ matrix.container-image-arch }}
+          archs: ${{ matrix.container-image-arch }}
           containerfiles: |
             ${{ env.CONTAINER_FILE }}
 
       - name: Save container image
-        run: podman save -o image.tar ${{ env.IMAGE_NAME }}:${{ env.TAG }}
+        run: podman save -o ${{ matrix.container-image-arch }}.tar ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}_${{ matrix.container-image-arch }}
 
       - name: Upload container image
         uses: actions/upload-artifact@v3
         with:
-          name: container-image
-          path: image.tar
+          name: ${{ matrix.container-image-arch }}
+          path: ${{ matrix.container-image-arch }}.tar
 
 
   scan-container:
@@ -66,24 +75,22 @@ jobs:
     needs: build-container-image
     runs-on: ubuntu-latest
     steps:
-      - name: Download container image
+      - name: Download Container Image
         uses: actions/download-artifact@v3
         with:
-          name: container-image
+          name: amd64
           path: .
-
-      - name: Restore container image
-        run: podman load --input image.tar
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          scan-type: 'image'
-          input: image.tar
+          scan-type: image
+          input: amd64.tar
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
+
 
   test-container:
     name: Test container image
@@ -93,20 +100,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Download container Image
+      - name: Download Container Image
         uses: actions/download-artifact@v3
         with:
-          name: container-image
+          name: amd64
           path: .
 
-      - name: Restore container image
-        run: podman load --input image.tar
+      - name: Restore docker image
+        run: podman load --input amd64.tar
 
       - name: Test the built image
         env:
           BEAMMP_AUTH_KEY: ${{ secrets.BEAMMP_AUTH_KEY }}
         run: |
           bash test-image.sh rouhim/beammp-server:latest
+
 
   push-container:
     name: Push container image
@@ -117,27 +125,46 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Download container image
+      - name: Download amd64 Container Image
         uses: actions/download-artifact@v3
         with:
-          name: container-image
+          name: amd64
+          path: .
+      - name: Download arm Container Image
+        uses: actions/download-artifact@v3
+        with:
+          name: arm
+          path: .
+      - name: Download arm64 Container Image
+        uses: actions/download-artifact@v3
+        with:
+          name: arm64
           path: .
 
-      - name: Restore container image
-        run: podman load --input image.tar
+      - name: Restore container images
+        run: |
+          podman load --input amd64.tar
+          podman load --input arm.tar
+          podman load --input arm64.tar
 
-      - name: Push To docker hub
-        uses: redhat-actions/push-to-registry@v2
-        with:
-          image: ${{ env.IMAGE_NAME }}
-          tags: ${{ env.TAG }}
-          registry: docker.io
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Create container image manifest
+        run: buildah manifest create multiarch-manifest
+
+      - name: Add all architectures to the manifest
+        run: |
+          buildah manifest add multiarch-manifest ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}_amd64
+          buildah manifest add multiarch-manifest ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}_arm
+          buildah manifest add multiarch-manifest ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}_arm64
+
+      - name: Login to docker hub
+        run: podman login docker.io --username ${{ secrets.DOCKERHUB_USERNAME }} --password ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Push multiarch manifest to docker hub
+        run: buildah manifest push --all multiarch-manifest docker://docker.io/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
       - name: Update docker hub description
         uses: peter-evans/dockerhub-description@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: rouhim/beammp-server
+          repository: ${{ env.IMAGE_NAME }}
