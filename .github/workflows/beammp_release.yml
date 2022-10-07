@@ -10,7 +10,7 @@ on:
     - cron: "0 0 * * 0" # weekly at sunday night
 
 env:
-  CONTAINER_FILE: ./glibc.Containerfile
+  CONTAINER_FILE: ./Containerfile
   IMAGE_NAME: rouhim/beammp-server
   TAG: latest
   ARCHS: amd64
