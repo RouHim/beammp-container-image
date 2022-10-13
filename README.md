@@ -19,7 +19,7 @@
 
 ## Current State
 There is currently a problem in the beammp server build that musl is not supported: https://github.com/BeamMP/BeamMP-Server/issues/117.
-Until this issue is resolved, the amd64 build will be replaced with a Debian variant and the arm builds will not run until the issue is resolved.
+Until this issue is resolved (or [this](https://github.com/BeamMP/BeamMP-Server/pull/129) is merged), the amd64 build will be replaced with a Debian variant and the arm builds will not run until the issue is resolved.
 
 ## Motivation
 
