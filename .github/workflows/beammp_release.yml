@@ -1,5 +1,5 @@
-# This builds the master branch (UNSTABLE!) of beammp
-name: Unstable Release Pipe
+# This builds the latest stable version of beammp
+name: Stable Release Pipe
 on:
   push:
   workflow_dispatch: # Allows you to run this workflow manually from the Actions tab

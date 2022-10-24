@@ -13,7 +13,7 @@ env:
   CONTAINER_FILE: ./Containerfile
   IMAGE_NAME: rouhim/beammp-server
   IMAGE_TAG: unstable
-  BUILD_ARGS: BUILD_BRANCH=static-build # TODO: change me to 'master' before merging this PR
+  BUILD_ARGS: BUILD_BRANCH=master
 
 jobs:
 
