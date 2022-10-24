@@ -8,7 +8,7 @@
     <a href="https://hub.docker.com/r/rouhim/beammp-server"><img src="https://img.shields.io/docker/pulls/rouhim/beammp-server.svg" alt="Docker Hub pulls"></a>
     <a href="https://hub.docker.com/r/rouhim/beammp-server"><img src="https://img.shields.io/docker/image-size/rouhim/beammp-server" alt="Docker Hub size"></a>
     <a href="https://github.com/aquasecurity/trivy"><img src="https://img.shields.io/badge/trivy-protected-blue" alt="trivy"></a>
-    <a href="https://hub.docker.com/r/rouhim/beammp-server/tags"><img src="https://img.shields.io/badge/ARCH-amd64_•_arm64_•_arm/v7-blueviolet" alt="os-arch"></a>
+    <a href="https://hub.docker.com/r/rouhim/beammp-server/tags"><img src="https://img.shields.io/badge/ARCH-amd64_•_arm64-blueviolet" alt="os-arch"></a>
     <a href="https://buymeacoffee.com/rouhim"><img alt="Donate me" src="https://img.shields.io/badge/-buy_me_a%C2%A0coffee-gray?logo=buy-me-a-coffee"></a>
 </p>
 
@@ -16,10 +16,6 @@
     This project provides a container image for the <a href="https://beammp.com">BeamMP</a> 
     game server and shows its usage in a docker-compose environment.
 </p>
-
-## Current State
-There is currently a problem in the beammp server build that musl is not supported: https://github.com/BeamMP/BeamMP-Server/issues/117.
-Until this issue is resolved (or [this](https://github.com/BeamMP/BeamMP-Server/pull/129) is merged), the amd64 build will be replaced with a Debian variant and the arm builds will not run until the issue is resolved.
 
 ## Motivation
 
