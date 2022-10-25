@@ -15,8 +15,9 @@ sleep 10
 
 # Test for errors in log
 echo "🧪 Testing for errors"
-docker logs test-container | grep -i 'error'
-if [ "$?" -eq 0 ]; then
+LOGS=$(docker logs test-container 2>&1 > /dev/null)
+echo $LOGS | grep -i -q "error"
+if [ $? -eq 0 ]; then
   echo "❌ Found errors in server log:"
   echo "======================"
   docker logs test-container
