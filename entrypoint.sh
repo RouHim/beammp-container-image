@@ -37,4 +37,4 @@ if [ "$DEBUG" = "true" ]; then
 fi
 
 # Start the BeamMP server executable
-nohup /beammp/beammp-server & tail -f nohup.out
+/beammp/beammp-server
