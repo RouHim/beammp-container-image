@@ -15,7 +15,7 @@ sleep 10
 
 # Test for errors in log
 echo "🧪 Testing for errors"
-podman logs test-container | grep -i '\[ERROR\]'
+podman logs test-container | grep -i 'error'
 if [ "$?" -eq 0 ]; then
   echo "❌ Found errors in server log:"
   echo "======================"
