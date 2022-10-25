@@ -116,7 +116,7 @@ jobs:
         env:
           BEAMMP_AUTH_KEY: ${{ secrets.BEAMMP_AUTH_KEY }}
         run: |
-          bash test-image.sh ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}_amd64
+          bash test-image.sh localhost/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}_amd64
 
 
   push-container:
