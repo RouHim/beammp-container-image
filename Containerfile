@@ -62,7 +62,7 @@ WORKDIR /beammp
 
 # Install game server required packages
 RUN apk update && \
-    apk add --no-cache zlib lua5.3 libcrypto1.1 openssl libcurl libstdc++6 libstdc++
+    apk add --no-cache zlib lua5.3 libcrypto1.1 openssl libcurl libstdc++
 
 # Copy the previously built executable
 COPY --from=builder /beammp/BeamMP-Server ./beammp-server
