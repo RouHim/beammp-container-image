@@ -7,7 +7,7 @@ ARG BUILD_BRANCH
 
 # Setup required build dependencies
 RUN apk update && \
-    apk add --no-cache git make cmake g++ boost-dev lua5.3-dev zlib-dev rapidjson-dev curl-dev openssl-dev
+    apk add --no-cache git make cmake g++ boost-dev lua5.4-dev zlib-dev rapidjson-dev curl-dev openssl-dev
 
 # Grab the latest released source code
 RUN git clone -j$(nproc) --recurse-submodules "https://github.com/BeamMP/BeamMP-Server" /beammp
@@ -62,7 +62,7 @@ WORKDIR /beammp
 
 # Install game server required packages
 RUN apk update && \
-    apk add --no-cache zlib lua5.3 libcrypto1.1 openssl libcurl libstdc++
+    apk add --no-cache zlib lua5.4 libcrypto1.1 openssl libcurl libstdc++
 
 # Copy the previously built executable
 COPY --from=builder /beammp/BeamMP-Server ./beammp-server
