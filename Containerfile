@@ -7,20 +7,20 @@ ARG BUILD_BRANCH
 
 # Setup required build dependencies
 RUN apk update && \
-    apk add --no-cache git make cmake g++ boost-dev lua5.3-dev zlib-dev rapidjson-dev curl-dev openssl-dev
+    apk add --no-cache git make cmake g++ boost-dev lua5.3-dev zlib-dev rapidjson-dev curl-dev openssl-dev curl
 
 # Grab the latest released source code
 RUN git clone -j$(nproc) --recurse-submodules "https://github.com/BeamMP/BeamMP-Server" /beammp
 WORKDIR /beammp
 
 # Switch to the latest tag
-RUN git checkout $(git tag --sort=creatordate | tail -1)
+RUN git checkout $(curl -s https://api.github.com/repos/BeamMP/BeamMP-Server/releases/latest | grep "tag_name" | cut -d '"' -f 4)
 
 # If BUILD_BRANCH is set, checkout the specified branch
 RUN if [ -z "$BUILD_BRANCH" ]; \
     then \
         echo "No build branch defined, working on:"; \
-        git tag --sort=creatordate | tail -1; \
+        git describe --tags --abbrev=0; \
     else \
         echo "Build branch is set to: $BUILD_BRANCH"; \
         git checkout "$BUILD_BRANCH"; \
