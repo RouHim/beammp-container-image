@@ -53,8 +53,8 @@ jobs:
 
       - name: Build container image
         run: |
-          docker buildx create --name mybuilder
-          docker buildx use mybuilder
+          docker buildx create --name builder
+          docker buildx use builder
           docker buildx inspect --bootstrap
           docker buildx build --platform linux/${{ matrix.container-image-arch }} -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}_${{ matrix.container-image-arch }} -f ${{ env.CONTAINER_FILE }} --push .
 
