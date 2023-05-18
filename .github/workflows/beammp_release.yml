@@ -52,16 +52,14 @@ jobs:
           platforms: ${{ matrix.container-image-arch }}
 
       - name: Build container image
-        uses: redhat-actions/buildah-build@v2
-        with:
-          image: ${{ env.IMAGE_NAME }}
-          tags: ${{ env.IMAGE_TAG }}_${{ matrix.container-image-arch }}
-          archs: ${{ matrix.container-image-arch }}
-          containerfiles: |
-            ${{ env.CONTAINER_FILE }}
+        run: |
+          docker buildx create --name mybuilder
+          docker buildx use mybuilder
+          docker buildx inspect --bootstrap
+          docker buildx build --platform linux/${{ matrix.container-image-arch }} -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}_${{ matrix.container-image-arch }} -f ${{ env.CONTAINER_FILE }} --push .
 
       - name: Save container image
-        run: podman save -o ${{ matrix.container-image-arch }}.tar ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}_${{ matrix.container-image-arch }}
+        run: docker save -o ${{ matrix.container-image-arch }}.tar ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}_${{ matrix.container-image-arch }}
 
       - name: Upload container image
         uses: actions/upload-artifact@v3
@@ -107,7 +105,7 @@ jobs:
           path: .
 
       - name: Restore docker image
-        run: podman load --input amd64.tar
+        run: docker load --input amd64.tar
 
       - name: Test the built image
         env:
@@ -138,22 +136,18 @@ jobs:
 
       - name: Restore container images
         run: |
-          podman load --input amd64.tar
-          podman load --input arm64.tar
-
-      - name: Create container image manifest
-        run: buildah manifest create multiarch-manifest
-
-      - name: Add all architectures to the manifest
-        run: |
-          buildah manifest add multiarch-manifest ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}_amd64
-          buildah manifest add multiarch-manifest ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}_arm64
+          docker load --input amd64.tar
+          docker load --input arm64.tar
 
       - name: Login to docker hub
-        run: podman login docker.io --username ${{ secrets.DOCKERHUB_USERNAME }} --password ${{ secrets.DOCKERHUB_PASSWORD }}
+        run: docker login docker.io --username ${{ secrets.DOCKERHUB_USERNAME }} --password ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Push multiarch manifest to docker hub
-        run: buildah manifest push --all multiarch-manifest docker://docker.io/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+      - name: Push multi arch container image to docker hub
+        run: |
+          docker manifest create ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+            ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}_amd64 \
+            ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}_arm64
+          docker manifest push ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
       - name: Update docker hub description
         uses: peter-evans/dockerhub-description@v3
