@@ -7,7 +7,7 @@
 
 # Spin up a BeamMP server
 echo "🚀 Spinning up a test container"
-podman run -d --name test-container -e AUTH_KEY="$BEAMMP_AUTH_KEY" "$1"
+docker run -d --name test-container -e AUTH_KEY="$BEAMMP_AUTH_KEY" "$1"
 
 # Wait some time
 echo "😴 sleeping 10 seconds"
@@ -15,18 +15,18 @@ sleep 10
 
 # Test for errors in log
 echo "🧪 Testing for errors"
-podman logs test-container # print logs to console for debugging
-podman logs test-container | grep -i '\[ERROR\]'
+docker logs test-container # print logs to console for debugging
+docker logs test-container | grep -i '\[ERROR\]'
 if [ "$?" -eq 0 ]; then
   echo "❌ Found errors in server log:"
   echo "======================"
-  podman logs test-container
+  docker logs test-container
   echo "======================"
-  podman stop test-container && podman rm test-container
+  docker stop test-container && docker rm test-container
   exit 1
 fi
 
 # Cleanup and exit with 0
-podman stop test-container && podman rm test-container
+docker stop test-container && podman rm test-container
 echo "✅ Done, everything looks good"
 exit 0
