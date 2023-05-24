@@ -77,7 +77,8 @@ jobs:
         run: |
           bash test-image.sh ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
-      - name: Build multiplatform container image
+      - name: Build and push multiplatform container image
+        if: github.ref == 'refs/heads/main'
         uses: docker/build-push-action@v4
         with:
           tags: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
@@ -88,6 +89,7 @@ jobs:
           push: true
 
       - name: Update docker hub description
+        if: github.ref == 'refs/heads/main'
         uses: peter-evans/dockerhub-description@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
