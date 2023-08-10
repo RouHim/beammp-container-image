@@ -47,7 +47,7 @@ docker run --name beammp-server \
            rouhim/beammp-server
 ```
 
-> If you want to interact with the server console, ust add the `-it` flag to the docker run command.
+> If you want to interact with the server console, just add the `-it` flag to the docker run command.
 
 ### docker-compose
 
