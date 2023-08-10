@@ -47,6 +47,8 @@ docker run --name beammp-server \
            rouhim/beammp-server
 ```
 
+> If you want to interact with the server console, ust add the `-it` flag to the docker run command.
+
 ### docker-compose
 
 First clone this repository and check `docker-compose.yml` if interested. The configuration should be done within
