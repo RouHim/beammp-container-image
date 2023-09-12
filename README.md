@@ -25,7 +25,8 @@ musl).
 
 ## Variants
 
-There are [two tags](https://hub.docker.com/r/rouhim/beammp-server/tags) of this container image available, that are built nightly:
+There are [two tags](https://hub.docker.com/r/rouhim/beammp-server/tags) of this container image available, that are
+built nightly:
 
 * **latest** - [Stable](https://github.com/BeamMP/BeamMP-Server/releases/latest) version of BeamMP
 * **unstable** - [Unstable](https://github.com/BeamMP/BeamMP-Server) version of BeamMP (reflecting
@@ -64,21 +65,32 @@ Adjust the values in the `.env` to your needs and run:
 
 ```bash
 docker-compose pull && docker-compose up -d
+
+```
+
+### Server interaction
+
+To connect to the interactive game server console, you have to start the server in the detached (docker / -compose `-d`
+flag) mode.
+Then run d
+
+```bash
+docker attach <container-name>
 ```
 
 ## Environment parameter
 
-Variable name   | description                                                                                                   | default value
---------------- |-------------------------------------------------------------------------------------------------------------- | -------- 
-AUTH_KEY        | Mandatory! The authentication key used by the server. It is used to identify your server and is not optional. | <empty>
-DEBUG           | Set to true to enable debug output in the console.                                                            | false
-PRIVATE         | Set to true if you don't want to show up in the Server Browser.                                               | true
-CARS            | How many vehicles a player is allowed to have at the same time.                                               | 1
-MAX_PLAYER      | How many players your server can hold at a time.                                                              | 10
-MAP             | What the server map is.                                                                                       | /levels/gridmap_v2/info.json
-NAME            | What your server is called. This shows up in the Server Browser.                                              | BeamMP New Server
-DESC            | What shows under the name when you click on the server.                                                       | BeamMP Default Description
-PORT            | This value must be identical to the containers exposed port.                                                  | 30814
+| Variable name | description                                                                                                   | default value                |
+|---------------|---------------------------------------------------------------------------------------------------------------|------------------------------|
+| AUTH_KEY      | Mandatory! The authentication key used by the server. It is used to identify your server and is not optional. | <empty>                      |
+| DEBUG         | Set to true to enable debug output in the console.                                                            | false                        |
+| PRIVATE       | Set to true if you don't want to show up in the Server Browser.                                               | true                         |
+| CARS          | How many vehicles a player is allowed to have at the same time.                                               | 1                            |
+| MAX_PLAYER    | How many players your server can hold at a time.                                                              | 10                           |
+| MAP           | What the server map is.                                                                                       | /levels/gridmap_v2/info.json |
+| NAME          | What your server is called. This shows up in the Server Browser.                                              | BeamMP New Server            |
+| DESC          | What shows under the name when you click on the server.                                                       | BeamMP Default Description   |
+| PORT          | This value must be identical to the containers exposed port.                                                  | 30814                        |
 
 A new AUTH_KEY can be claimed on [this site](https://beammp.com/k/dashboard), you will need
 a [Discord](https://discord.com) account for this. Note that the IP entered there does *not* matter, despite what the
@@ -134,7 +146,8 @@ some_numbers = [1, 2, 3]
 ```
 
 > Note that the single quotation marks are important at the beginning and end.
-> If you want to use single quotes in the toml value they must be escaped with a backslash: `key = "this is a \'quote\'"`
+> If you want to use single quotes in the toml value they must be escaped with a
+> backslash: `key = "this is a \'quote\'"`
 
 ## Resources
 
