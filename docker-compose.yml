@@ -5,6 +5,8 @@ services:
     image: rouhim/beammp-server
     build:
       context: .
+    stdin_open: true
+    tty: true
     environment:
       # Game server parameter
       - PRIVATE
