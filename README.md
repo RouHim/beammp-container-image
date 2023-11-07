@@ -70,7 +70,7 @@ docker-compose pull && docker-compose up -d
 
 ### Server interaction
 
-To connect to the interactive game server console, you can to start the server in the detached (docker / -compose `-d`
+To connect to the interactive game server console, you need to start the server in detached (docker / -compose `-d`
 flag) mode.
 Then run the following command to attach to the server console:
 
