@@ -7,7 +7,10 @@ ARG BUILD_BRANCH
 
 # Setup required build dependencies
 RUN apk update && \
-    apk add --no-cache git make cmake g++ boost-dev lua5.3-dev zlib-dev rapidjson-dev curl-dev openssl-dev curl
+    apk add --no-cache git build-base make cmake g++ boost-dev lua5.3-dev zlib-dev rapidjson-dev curl-dev openssl-dev curl ninja zip unzip linux-headers bash perl perl-dev
+
+# Install and update certificates
+RUN apk add --no-cache ca-certificates && update-ca-certificates
 
 # Grab the latest released source code
 RUN git clone -j$(nproc) --recurse-submodules "https://github.com/BeamMP/BeamMP-Server" /beammp
@@ -30,13 +33,20 @@ RUN if [ -z "$BUILD_BRANCH" ]; \
 RUN git submodule update --init --recursive
 
 # Build the server
-# We have to specify the lua path manually, because it is not set correctly during apk setup
+# We have to set VCPKG_FORCE_SYSTEM_BINARIES, to use alpines toolset instead of downloading the wrong (non musl)
 # We use Release mode to reduce binary size, improve speed and remove debug symbols automatically
-# We are disabling the sentry backend as it is not needed for our custom build.
-RUN cmake -DLUA_LIBRARY=/usr/lib/lua5.3/liblua.so -DCMAKE_BUILD_TYPE=Release -DSENTRY_BACKEND=none -DBUILD_TESTS=OFF .
+ENV VCPKG_FORCE_SYSTEM_BINARIES 1
+RUN cmake . -B bin \
+    -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake \
+    -DCMAKE_MAKE_PROGRAM="$(which make)" \
+    -DCMAKE_C_COMPILER="$(which gcc)" \
+    -DCMAKE_CXX_COMPILER="$(which g++)" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DLUA_LIBRARIES=/usr/lib/lua5.3/liblua.so
 
-# Build the 'BeamMP-Server' executable using all available CPU cores
-RUN make -j $(nproc)
+# Build the 'BeamMP-Server' executable
+RUN cmake --build bin --parallel -t BeamMP-Server
+RUN strip bin/BeamMP-Server
 
 ####################
 #    Run Image     #
@@ -65,7 +75,7 @@ RUN apk update && \
     apk add --no-cache zlib lua5.3 libcrypto1.1 openssl libcurl libstdc++
 
 # Copy the previously built executable
-COPY --from=builder /beammp/BeamMP-Server ./beammp-server
+COPY --from=builder /beammp/bin/BeamMP-Server ./beammp-server
 RUN chmod +x beammp-server
 
 # Disable package manager
