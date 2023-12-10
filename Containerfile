@@ -1,7 +1,7 @@
 ####################
 #   Build Image    #
 ####################
-FROM docker.io/alpine:3.18 AS builder
+FROM docker.io/alpine:3.19 AS builder
 # Select branch of BeamMP to build, default is latest stable
 ARG BUILD_BRANCH
 
@@ -51,7 +51,7 @@ RUN strip bin/BeamMP-Server
 ####################
 #    Run Image     #
 ####################
-FROM docker.io/alpine:3.18
+FROM docker.io/alpine:3.19
 LABEL maintainer="Rouven Himmelstein rouven@himmelstein.info"
 
 ## Game server parameter and their defaults
@@ -72,7 +72,7 @@ WORKDIR /beammp
 
 # Install game server required packages
 RUN apk update && \
-    apk add --no-cache zlib lua5.3 libcrypto1.1 openssl libcurl libstdc++
+    apk add --no-cache zlib lua5.3 libcrypto3 openssl libcurl libstdc++
 
 # Copy the previously built executable
 COPY --from=builder /beammp/bin/BeamMP-Server ./beammp-server
