@@ -1,7 +1,7 @@
 ####################
 #   Build Image    #
 ####################
-FROM docker.io/alpine:3.18 AS builder
+FROM docker.io/alpine:3.19 AS builder
 # Select branch of BeamMP to build, default is latest stable
 ARG BUILD_BRANCH
 
@@ -51,7 +51,7 @@ RUN strip bin/BeamMP-Server
 ####################
 #    Run Image     #
 ####################
-FROM docker.io/alpine:3.18
+FROM docker.io/alpine:3.19
 LABEL maintainer="Rouven Himmelstein rouven@himmelstein.info"
 
 ## Game server parameter and their defaults
