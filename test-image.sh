@@ -27,6 +27,6 @@ if [ "$?" -eq 0 ]; then
 fi
 
 # Cleanup and exit with 0
-docker stop test-container && podman rm test-container
+docker stop test-container && docker rm test-container
 echo "✅ Done, everything looks good"
 exit 0

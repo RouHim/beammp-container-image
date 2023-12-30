@@ -7,7 +7,7 @@ ARG BUILD_BRANCH
 
 # Setup required build dependencies
 RUN apt update && \
-    apt install -y git build-essential cmake libboost-all-dev liblua5.3-dev zlib1g-dev curl ninja-build zip unzip
+    apt install -y git build-essential cmake liblua5.3-dev curl zip unzip tar
 
 # Grab the latest released source code
 RUN git clone -j$(nproc) --recurse-submodules "https://github.com/BeamMP/BeamMP-Server" /beammp
@@ -31,8 +31,6 @@ RUN git submodule update --init --recursive
 
 # Build the server
 # We use Release mode to reduce binary size, improve speed and remove debug symbols automatically
-ENV VCPKG_FORCE_SYSTEM_BINARIES 1
-ENV VCPKG_DISABLE_METRICS 1
 RUN ./vcpkg/bootstrap-vcpkg.sh
 RUN cmake . -B bin \
     -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake \
@@ -67,7 +65,7 @@ WORKDIR /beammp
 # Install game server required packages
 # and disable clean up to reduce image size
 RUN apt update && \
-    apt install -y zlib1g liblua5.3-0 curl libstdc++6 && \
+    apt install -y liblua5.3-0 && \
     rm -rf /var/cache/apt/archives /var/lib/apt/lists
 
 # Copy the previously built executable
