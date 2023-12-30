@@ -7,7 +7,7 @@ ARG BUILD_BRANCH
 
 # Setup required build dependencies
 RUN apt update && \
-     apt install -y git build-essential cmake g++ libboost-all-dev liblua5.3-dev zlib1g-dev rapidjson-dev libcurl4-openssl-dev curl ninja-build zip unzip linux-headers-generic bash perl libperl-dev
+    apt install -y git build-essential cmake libboost-all-dev liblua5.3-dev zlib1g-dev curl ninja-build zip unzip
 
 # Grab the latest released source code
 RUN git clone -j$(nproc) --recurse-submodules "https://github.com/BeamMP/BeamMP-Server" /beammp
@@ -33,6 +33,7 @@ RUN git submodule update --init --recursive
 # We use Release mode to reduce binary size, improve speed and remove debug symbols automatically
 ENV VCPKG_FORCE_SYSTEM_BINARIES 1
 ENV VCPKG_DISABLE_METRICS 1
+RUN ./vcpkg/bootstrap-vcpkg.sh
 RUN cmake . -B bin \
     -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake \
     -DCMAKE_BUILD_TYPE=Release
@@ -64,18 +65,18 @@ RUN mkdir -p /beammp/Resources/Server /beammp/Resources/Client
 WORKDIR /beammp
 
 # Install game server required packages
+# and disable clean up to reduce image size
 RUN apt update && \
-    apt install -y zlib1g liblua5.3-0 curl libstdc++6
+    apt install -y zlib1g liblua5.3-0 curl libstdc++6 && \
+    rm -rf /var/cache/apt/archives /var/lib/apt/lists
 
 # Copy the previously built executable
 COPY --from=builder /beammp/bin/BeamMP-Server ./beammp-server
 
-# Remove apt cache
-RUN rm -rf /var/cache/apt/archives /var/lib/apt/lists
-
 # Prepare user
-RUN groupadd -r beammp && useradd -r -g beammp beammp
-RUN chown -R beammp:beammp . && chmod -R 775 .
+RUN groupadd -r beammp && \
+    useradd -r -g beammp beammp && \
+    chown -R beammp:beammp . && chmod -R 775 .
 USER beammp
 
 # Specify entrypoint

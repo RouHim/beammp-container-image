@@ -84,7 +84,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           tags: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          platforms: linux/amd64,linux/arm64
           build-args: ${{ env.BUILD_ARGS }}
           context: .
           file: ./Containerfile
