@@ -31,9 +31,9 @@ RUN git submodule update --init --recursive
 
 # Build the server
 # We use Release mode to reduce binary size, improve speed and remove debug symbols automatically
-RUN ./vcpkg/bootstrap-vcpkg.sh
 ENV VCPKG_FORCE_SYSTEM_BINARIES 1
 ENV VCPKG_DISABLE_METRICS 1
+RUN ./vcpkg/bootstrap-vcpkg.sh
 RUN cmake . -B bin \
     -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake \
     -DCMAKE_BUILD_TYPE=Release
