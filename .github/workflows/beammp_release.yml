@@ -51,7 +51,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build amd64 container image
+      - name: Build container image
         uses: docker/build-push-action@v5
         with:
           tags: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
@@ -82,7 +82,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           tags: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           context: .
           file: ./Containerfile
           load: false
