@@ -1,7 +1,7 @@
 ####################
 #   Build Image    #
 ####################
-FROM docker.io/ubuntu:22.04 AS builder
+FROM docker.io/ubuntu:22.10 AS builder
 # Select branch of BeamMP to build, default is latest stable
 ARG BUILD_BRANCH
 
@@ -45,7 +45,7 @@ RUN strip bin/BeamMP-Server
 ####################
 #    Run Image     #
 ####################
-FROM docker.io/ubuntu:22.04
+FROM docker.io/ubuntu:22.10
 LABEL maintainer="Rouven Himmelstein rouven@himmelstein.info"
 
 ## Game server parameter and their defaults
