@@ -7,7 +7,7 @@ ARG BUILD_BRANCH
 
 # Setup required build dependencies
 RUN apt update && \
-    apt install -y git build-essential cmake liblua5.3-dev curl zip unzip tar ninja-build libboost-all-dev zlib1g-dev
+    apt install -y git build-essential cmake liblua5.3-dev curl zip unzip tar ninja-build
 
 # Grab the latest released source code
 RUN git clone -j$(nproc) --recurse-submodules "https://github.com/BeamMP/BeamMP-Server" /beammp
