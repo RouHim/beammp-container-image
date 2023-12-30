@@ -1,16 +1,13 @@
 ####################
 #   Build Image    #
 ####################
-FROM docker.io/alpine:3.19 AS builder
+FROM docker.io/ubuntu:22.04 AS builder
 # Select branch of BeamMP to build, default is latest stable
 ARG BUILD_BRANCH
 
 # Setup required build dependencies
-RUN apk update && \
-    apk add --no-cache git build-base make cmake g++ boost-dev lua5.3-dev zlib-dev rapidjson-dev curl-dev openssl-dev curl ninja zip unzip linux-headers bash perl perl-dev
-
-# Install and update certificates
-RUN apk add --no-cache ca-certificates && update-ca-certificates
+RUN apt update && \
+     apt install -y git build-essential cmake g++ libboost-all-dev liblua5.3-dev zlib1g-dev rapidjson-dev libcurl4-openssl-dev curl ninja-build zip unzip linux-headers-generic bash perl libperl-dev
 
 # Grab the latest released source code
 RUN git clone -j$(nproc) --recurse-submodules "https://github.com/BeamMP/BeamMP-Server" /beammp
@@ -33,16 +30,12 @@ RUN if [ -z "$BUILD_BRANCH" ]; \
 RUN git submodule update --init --recursive
 
 # Build the server
-# We have to set VCPKG_FORCE_SYSTEM_BINARIES, to use alpines toolset instead of downloading the wrong (non musl)
 # We use Release mode to reduce binary size, improve speed and remove debug symbols automatically
 ENV VCPKG_FORCE_SYSTEM_BINARIES 1
+ENV VCPKG_DISABLE_METRICS 1
 RUN cmake . -B bin \
     -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake \
-    -DCMAKE_MAKE_PROGRAM="$(which make)" \
-    -DCMAKE_C_COMPILER="$(which gcc)" \
-    -DCMAKE_CXX_COMPILER="$(which g++)" \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DLUA_LIBRARIES=/usr/lib/lua5.3/liblua.so
+    -DCMAKE_BUILD_TYPE=Release
 
 # Build the 'BeamMP-Server' executable
 RUN cmake --build bin --parallel -t BeamMP-Server
@@ -51,7 +44,7 @@ RUN strip bin/BeamMP-Server
 ####################
 #    Run Image     #
 ####################
-FROM docker.io/alpine:3.19
+FROM docker.io/ubuntu:22.04
 LABEL maintainer="Rouven Himmelstein rouven@himmelstein.info"
 
 ## Game server parameter and their defaults
@@ -71,22 +64,17 @@ RUN mkdir -p /beammp/Resources/Server /beammp/Resources/Client
 WORKDIR /beammp
 
 # Install game server required packages
-RUN apk update && \
-    apk add --no-cache zlib lua5.3 libcrypto3 openssl libcurl libstdc++
+RUN apt update && \
+    apt install -y zlib1g liblua5.3-0 curl libstdc++6
 
 # Copy the previously built executable
 COPY --from=builder /beammp/bin/BeamMP-Server ./beammp-server
-RUN chmod +x beammp-server
 
-# Disable package manager
-RUN rm -f /sbin/apk && \
-    rm -rf /etc/apk && \
-    rm -rf /lib/apk && \
-    rm -rf /usr/share/apk && \
-    rm -rf /var/lib/apk
+# Remove apt cache
+RUN rm -rf /var/cache/apt/archives /var/lib/apt/lists
 
 # Prepare user
-RUN addgroup -g 1000 -S beammp && adduser -u 1000 -S beammp -G beammp
+RUN groupadd -r beammp && useradd -r -g beammp beammp
 RUN chown -R beammp:beammp . && chmod -R 775 .
 USER beammp
 

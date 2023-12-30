@@ -8,7 +8,7 @@
     <a href="https://hub.docker.com/r/rouhim/beammp-server"><img src="https://img.shields.io/docker/pulls/rouhim/beammp-server.svg" alt="Docker Hub pulls"></a>
     <a href="https://hub.docker.com/r/rouhim/beammp-server"><img src="https://img.shields.io/docker/image-size/rouhim/beammp-server" alt="Docker Hub size"></a>
     <a href="https://github.com/aquasecurity/trivy"><img src="https://img.shields.io/badge/trivy-protected-blue" alt="trivy"></a>
-    <a href="https://hub.docker.com/r/rouhim/beammp-server/tags"><img src="https://img.shields.io/badge/ARCH-amd64-blueviolet" alt="os-arch"></a>
+    <a href="https://hub.docker.com/r/rouhim/beammp-server/tags"><img src="https://img.shields.io/badge/ARCH-amd64_arm64_arm/v7-blueviolet" alt="os-arch"></a>
     <a href="https://buymeacoffee.com/rouhim"><img alt="Donate me" src="https://img.shields.io/badge/-buy_me_a%C2%A0coffee-gray?logo=buy-me-a-coffee"></a>
 </p>
 
@@ -19,9 +19,7 @@
 
 ## Motivation
 
-Because there were no well-documented BeamMP server container images out there, I did one by myself. Building the
-BeamMP server is needed, because the prebuilt linux binary uses glibc as C standard library implementation (instead of
-musl).
+Because there were no well-documented BeamMP server container images out there, I did one by myself.
 
 ## Variants
 
@@ -35,10 +33,6 @@ built nightly:
 ## Usage
 
 The sections below provides use cases for docker and docker-compose.
-
-### Supported platforms
-
-Due to [this issue](https://github.com/BeamMP/BeamMP-Server/issues/205) there is currently no ARM support.
 
 ### docker
 
