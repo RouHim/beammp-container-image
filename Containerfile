@@ -7,7 +7,7 @@ ARG BUILD_BRANCH
 
 # Setup required build dependencies
 RUN apt update && \
-    apt install -y git build-essential cmake liblua5.3-dev curl zip unzip tar ninja-build
+    apt install -y git build-essential cmake liblua5.3-dev curl zip unzip tar ninja-build libboost-all-dev zlib1g-dev
 
 # Grab the latest released source code
 RUN git clone -j$(nproc) --recurse-submodules "https://github.com/BeamMP/BeamMP-Server" /beammp
@@ -32,6 +32,8 @@ RUN git submodule update --init --recursive
 # Build the server
 # We use Release mode to reduce binary size, improve speed and remove debug symbols automatically
 RUN ./vcpkg/bootstrap-vcpkg.sh
+ENV VCPKG_FORCE_SYSTEM_BINARIES 1
+ENV VCPKG_DISABLE_METRICS 1
 RUN cmake . -B bin \
     -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake \
     -DCMAKE_BUILD_TYPE=Release
