@@ -68,7 +68,7 @@ WORKDIR /beammp
 # and disable clean up to reduce image size
 RUN apt update && \
     apt install -y liblua5.3-0 && \
-    rm -rf /var/cache/apt/archives /var/lib/apt/ /var/log /var/cache /var/lib/dpkg
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copy the previously built executable
 COPY --from=builder /beammp/bin/BeamMP-Server ./beammp-server
