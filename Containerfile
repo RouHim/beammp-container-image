@@ -32,7 +32,7 @@ RUN chmod +x BeamMP-Server
 ####################
 #    Run Image     #
 ####################
-FROM gcr.io/distroless/base-debian12
+FROM gcr.io/distroless/base-debian12:nonroot
 LABEL maintainer="Rouven Himmelstein rouven@himmelstein.info"
 
 ## Game server parameter and their defaults
@@ -48,23 +48,26 @@ ENV BEAMMP_AUTH_KEY ""
 
 # Create game server folder by coping the empty folder from builder
 #RUN mkdir -p /beammp/Resources/Server /beammp/Resources/Client
-COPY --from=builder /empty-dir /beammp
-COPY --from=builder /empty-dir /beammp/Resources
-COPY --from=builder /empty-dir /beammp/Resources/Server
-COPY --from=builder /empty-dir /beammp/Resources/Client
+COPY --from=builder --chown=nonroot:nonroot /empty-dir /beammp
+COPY --from=builder --chown=nonroot:nonroot /empty-dir /beammp/Resources
+COPY --from=builder --chown=nonroot:nonroot /empty-dir /beammp/Resources/Server
+COPY --from=builder --chown=nonroot:nonroot /empty-dir /beammp/Resources/Client
 WORKDIR /beammp
 
 # Copy liblua5.3.so.0 from builder
-COPY --from=builder /usr/lib/x86_64-linux-gnu/liblua5.3.so.0 /usr/lib/x86_64-linux-gnu/liblua5.3.so.0
+COPY --from=builder --chown=nonroot:nonroot /usr/lib/x86_64-linux-gnu/liblua5.3.so.0 /usr/lib/x86_64-linux-gnu/liblua5.3.so.0
 
 # Copy libstdc++.so.6 from builder
-COPY --from=builder "/usr/lib/x86_64-linux-gnu/libstdc++.so.6" "/usr/lib/x86_64-linux-gnu/libstdc++.so.6"
+COPY --from=builder --chown=nonroot:nonroot "/usr/lib/x86_64-linux-gnu/libstdc++.so.6" "/usr/lib/x86_64-linux-gnu/libstdc++.so.6"
 
 # Copy libgcc_s.so.1 from builder
-COPY --from=builder /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 /usr/lib/x86_64-linux-gnu/libgcc_s.so.1
+COPY --from=builder --chown=nonroot:nonroot /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 /usr/lib/x86_64-linux-gnu/libgcc_s.so.1
 
 # Copy the previously downloaded executable
-COPY --from=builder /work/BeamMP-Server ./beammp-server
+COPY --from=builder --chown=nonroot:nonroot /work/BeamMP-Server ./beammp-server
+
+# Use nonroot user
+USER nonroot
 
 # Specify entrypoint
 ENTRYPOINT ["/beammp/beammp-server"]
