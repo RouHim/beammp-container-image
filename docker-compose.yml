@@ -9,24 +9,25 @@ services:
     tty: true
     environment:
       # Game server parameter
-      - PRIVATE
-      - DEBUG
-      - CARS
-      - MAX_PLAYERS
-      - MAP
-      - NAME
-      - DESC
-      - PORT
-      - AUTH_KEY
-      - ADDITIONAL_SERVER_CONFIG_TOML
+      - BEAMMP_PRIVATE
+      - BEAMMP_CARS
+      - BEAMMP_MAX_PLAYERS
+      - BEAMMP_MAP
+      - BEAMMP_NAME
+      - BEAMMP_DESC
+      - BEAMMP_PORT
+      - BEAMMP_DEBUG
+      - BEAMMP_AUTH_KEY
     volumes:
+      # Map a custom server toml file, enable this only if needed
+      #- ./ServerConfig.toml:/beammp/ServerConfig.toml
       # Just move all the client mods you want to add into this folder
       - ./client-mods:/beammp/Resources/Client
       # All server mods belong here
       - ./server-mods:/beammp/Resources/Server
     ports:
-      - "${PORT}:${PORT}/tcp"
-      - "${PORT}:${PORT}/udp"
+      - "${BEAMMP_PORT}:${BEAMMP_PORT}/tcp"
+      - "${BEAMMP_PORT}:${BEAMMP_PORT}/udp"
     logging:
       driver: "json-file"
       options:

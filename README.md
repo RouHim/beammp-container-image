@@ -4,7 +4,6 @@
 
 <p align="center">
     <a href="https://github.com/RouHim/beammp-container-image/actions/workflows/beammp_release.yml"><img src="https://github.com/RouHim/beammp-container-image/actions/workflows/beammp_release.yml/badge.svg?branch=main" alt="Release Pipe"></a>
-    <a href="https://github.com/RouHim/beammp-container-image/actions/workflows/beammp_unstable.yml"><img src="https://github.com/RouHim/beammp-container-image/actions/workflows/beammp_unstable.yml/badge.svg?branch=main" alt="Unstable release Pipe"></a>
     <a href="https://hub.docker.com/r/rouhim/beammp-server"><img src="https://img.shields.io/docker/pulls/rouhim/beammp-server.svg" alt="Docker Hub pulls"></a>
     <a href="https://hub.docker.com/r/rouhim/beammp-server"><img src="https://img.shields.io/docker/image-size/rouhim/beammp-server" alt="Docker Hub size"></a>
     <a href="https://github.com/aquasecurity/trivy"><img src="https://img.shields.io/badge/trivy-protected-blue" alt="trivy"></a>
@@ -21,15 +20,6 @@
 
 Because there were no well-documented BeamMP server container images out there, I did one by myself.
 
-## Variants
-
-There are [two tags](https://hub.docker.com/r/rouhim/beammp-server/tags) of this container image available, that are
-built nightly:
-
-* **latest** - [Stable](https://github.com/BeamMP/BeamMP-Server/releases/latest) version of BeamMP
-* **unstable** - [Unstable](https://github.com/BeamMP/BeamMP-Server) version of BeamMP (reflecting
-  the [master](https://github.com/BeamMP/BeamMP-Server/tree/master) branch)
-
 ## Usage
 
 The sections below provides use cases for docker and docker-compose.
@@ -41,8 +31,8 @@ Quick start:
 ```bash
 docker run --name beammp-server \
            -p 30814:30814/tcp -p 30814:30814/udp \
-           -e NAME='My first awesome Server' \
-           -e AUTH_KEY='<insert auth-key>' \
+           -e BEAMMP_NAME='My first awesome Server' \
+           -e BEAMMP_AUTH_KEY='<insert auth-key>' \
            rouhim/beammp-server
 ```
 
@@ -78,19 +68,19 @@ docker attach <container-name>
 
 ## Environment parameter
 
-| Variable name | description                                                                                                   | default value                |
-|---------------|---------------------------------------------------------------------------------------------------------------|------------------------------|
-| AUTH_KEY      | Mandatory! The authentication key used by the server. It is used to identify your server and is not optional. | <empty>                      |
-| DEBUG         | Set to true to enable debug output in the console.                                                            | false                        |
-| PRIVATE       | Set to true if you don't want to show up in the Server Browser.                                               | true                         |
-| CARS          | How many vehicles a player is allowed to have at the same time.                                               | 1                            |
-| MAX_PLAYER    | How many players your server can hold at a time.                                                              | 10                           |
-| MAP           | What the server map is.                                                                                       | /levels/gridmap_v2/info.json |
-| NAME          | What your server is called. This shows up in the Server Browser.                                              | BeamMP New Server            |
-| DESC          | What shows under the name when you click on the server.                                                       | BeamMP Default Description   |
-| PORT          | This value must be identical to the containers exposed port.                                                  | 30814                        |
+| Variable name     | description                                                                                                   | default value                |
+|-------------------|---------------------------------------------------------------------------------------------------------------|------------------------------|
+| BEAMMP_AUTH_KEY   | Mandatory! The authentication key used by the server. It is used to identify your server and is not optional. | <empty>                      |
+| BEAMMP_DEBUG      | Set to true to enable debug output in the console.                                                            | false                        |
+| BEAMMP_PRIVATE    | Set to true if you don't want to show up in the Server Browser.                                               | true                         |
+| BEAMMP_CARS       | How many vehicles a player is allowed to have at the same time.                                               | 1                            |
+| BEAMMP_MAX_PLAYER | How many players your server can hold at a time.                                                              | 10                           |
+| BEAMMP_MAP        | What the server map is.                                                                                       | /levels/gridmap_v2/info.json |
+| BEAMMP_NAME       | What your server is called. This shows up in the Server Browser.                                              | BeamMP New Server            |
+| BEAMMP_DESC       | What shows under the name when you click on the server.                                                       | BeamMP Default Description   |
+| BEAMMP_PORT       | This value must be identical to the containers exposed port.                                                  | 30814                        |
 
-A new AUTH_KEY can be claimed on [this site](https://beammp.com/k/dashboard), you will need
+A new **auth key** can be claimed on [this site](https://beammp.com/k/dashboard), you will need
 a [Discord](https://discord.com) account for this. Note that the IP entered there does *not* matter, despite what the
 site claims. For more information refer
 to [this wiki page](https://wiki.beammp.com/en/home/server-installation#h-2-obtaining-an-authentication-key).
@@ -111,7 +101,7 @@ load. To do so:
 
 1. Execute the shell command below, or open the zip file manually.
 2. Copy the absolute path to the `info.json` location (`/levels/{map-name}/info.json`).
-3. Set in .env file: `MAP=/levels/{map-name}/info.json`. Example: `MAP=/levels/car_jump_arena/info.json`
+3. Set in .env file: `BEAMMP_MAP=/levels/{map-name}/info.json`. Example: `BEAMMP_MAP=/levels/car_jump_arena/info.json`
 
 A simple way to print the full map path including info.json (_unzip_, _grep_ and _awk_ is required):
 
@@ -126,26 +116,28 @@ unzip -l PATH/TO/MAP.zip \
 Server mods can be found in the [BeamMP forum](https://forum.beammp.com/c/resource-plugin-area/server-resources).
 Installation and configuration instructions are provided by each mod.
 
-### Augment ServerConfig.toml
+### Custom ServerConfig.toml
 
-If you want to specify additional values for a mod in the `ServerConfig.toml` file, just specify this environment
-variable in your `.env`
-file:
+If you want to specify a custom `ServerConfig.toml` file, just create a new file called `ServerConfig.toml`.
+Make sure to mount the file as volume to the container. The file will be mounted to the server directory on startup.
 
-```toml
-ADDITIONAL_SERVER_CONFIG_TOML = '
-[SomeMod]
-MyKey = "This is \'quoted\'"
+Docker example:
 
-[OtherMod]
-enabled = true
-some_numbers = [1, 2, 3]
-'
+```bash
+docker run --name beammp-server \
+           -p 30814:30814/tcp -p 30814:30814/udp \
+           -e BEAMMP_NAME='My first awesome Server' \
+           -e BEAMMP_AUTH_KEY='<insert auth-key>' \
+           -v ./ServerConfig.toml:/beammp/ServerConfig.toml \
+           rouhim/beammp-server
 ```
 
-> Note that the single quotation marks are important at the beginning and end.
-> If you want to use single quotes in the toml value they must be escaped with a
-> backslash: `key = "this is a \'quote\'"`
+For docker-compose, just add the following line to the `volumes` section:
+
+```yaml
+volumes:
+  - ./ServerConfig.toml:/beammp/ServerConfig.toml
+```
 
 ## Resources
 
