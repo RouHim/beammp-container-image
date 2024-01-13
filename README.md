@@ -20,6 +20,21 @@
 
 Because there were no well-documented BeamMP server container images out there, I did one by myself.
 
+## ⚠️ BREAKING CHANGE and migration guide ⚠️
+
+With the latest release of this container image there were two changes that will break your current setup:
+
+1) The [environment variables](#environment-parameter) were renamed. All environment variables are now prefixed
+   with `BEAMMP_`.
+2) The `ADDITIONAL_SERVER_CONFIG_TOML` no longer exists. Instead, you can now mount a custom `ServerConfig.toml` file
+   to the container.
+
+**In order to migrate you have to:**
+
+1) Prefix all environment variables with `BEAMMP_`.
+2) If you used the `ADDITIONAL_SERVER_CONFIG_TOML` environment variable, you have to create a `ServerConfig.toml` file
+   and mount it to the container. See the [ServerConfig.toml](#custom-serverconfigtoml) section for more information.
+
 ## Usage
 
 The sections below provides use cases for docker and docker-compose.
@@ -118,8 +133,9 @@ Installation and configuration instructions are provided by each mod.
 
 ### Custom ServerConfig.toml
 
-If you want to specify a custom `ServerConfig.toml` file, just create a new file called `ServerConfig.toml`.
-Make sure to mount the file as volume to the container. The file will be mounted to the server directory on startup.
+If you want to specify a custom `ServerConfig.toml` file, just create a new file called `ServerConfig.toml` and fill it
+with your configuration. Make sure to mount the file as volume to the container. The file will be mounted to the server
+directory on startup.
 
 Docker example:
 
