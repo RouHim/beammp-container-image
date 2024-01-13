@@ -2,45 +2,24 @@
 #   Build Image    #
 ####################
 FROM docker.io/ubuntu:24.04 AS builder
-# Select branch of BeamMP to build, default is latest stable
-ARG BUILD_BRANCH
 
-# Setup required build dependencies
-RUN apt update && \
-    apt install -y git build-essential cmake liblua5.3-dev curl zip unzip tar ninja-build libboost-all-dev zlib1g-dev
+RUN mkdir -p /work
+WORKDIR /work
 
-# Grab the latest released source code
-RUN git clone -j$(nproc) --recurse-submodules "https://github.com/BeamMP/BeamMP-Server" /beammp
-WORKDIR /beammp
+# Detect the latest release version (expect pre-releases)
+# AND Download "BeamMP-Server.ubuntu.22.04.$ARCH"
+# Where arch is either x86_64 or arm64
+# And download to current dir as "BeamMP-Server"
+#RUN export LATEST_VERSION=$(curl -s https://api.github.com/repos/BeamMP/BeamMP-Server/releases/latest | grep "tag_name" | cut -d '"' -f 4) && \
+#    export CURRENT_ARCH=$(uname -m) && \
+#    export CURRENT_OS="ubuntu.22.04" && \
+#    export DOWNLOAD_URL="https://github.com/BeamMP/BeamMP-Server/releases/download/$LATEST_VERSION/BeamMP-Server.$CURRENT_OS.$CURRENT_ARCH" && \
+#    echo "Downloading $DOWNLOAD_URL" && \
+#    curl -L -o BeamMP-Server $DOWNLOAD_URL
 
-# Switch to the latest tag
-RUN git checkout $(curl -s https://api.github.com/repos/BeamMP/BeamMP-Server/releases/latest | grep "tag_name" | cut -d '"' -f 4)
-
-# If BUILD_BRANCH is set, checkout the specified branch
-RUN if [ -z "$BUILD_BRANCH" ]; \
-    then \
-        echo "No build branch defined, working on:"; \
-        git describe --tags --abbrev=0; \
-    else \
-        echo "Build branch is set to: $BUILD_BRANCH"; \
-        git checkout "$BUILD_BRANCH"; \
-    fi
-
-# Ensure all git submodules are initialized
-RUN git submodule update --init --recursive
-
-# Build the server
-# We use Release mode to reduce binary size, improve speed and remove debug symbols automatically
-ENV VCPKG_FORCE_SYSTEM_BINARIES 1
-ENV VCPKG_DISABLE_METRICS 1
-RUN ./vcpkg/bootstrap-vcpkg.sh
-RUN cmake . -B bin \
-    -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake \
-    -DCMAKE_BUILD_TYPE=Release
-
-# Build the 'BeamMP-Server' executable
-RUN cmake --build bin --parallel -t BeamMP-Server
-RUN strip bin/BeamMP-Server
+# As a temporary workaround, copy the binary instead of downloading it
+COPY BeamMP-Server ./BeamMP-Server
+RUN chmod +x BeamMP-Server
 
 ####################
 #    Run Image     #
@@ -66,12 +45,12 @@ WORKDIR /beammp
 
 # Install game server required packages
 # and disable clean up to reduce image size
-RUN apt update && \
+RUN apt update && apt upgrade -y && \
     apt install -y liblua5.3-0 && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Copy the previously built executable
-COPY --from=builder /beammp/bin/BeamMP-Server ./beammp-server
+# Copy the previously downloaded executable
+COPY --from=builder /work/BeamMP-Server ./beammp-server
 
 # Prepare user
 RUN groupadd -r beammp && \
