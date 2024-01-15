@@ -10,7 +10,7 @@ services:
     environment:
       # Game server parameter
       - BEAMMP_PRIVATE
-      - BEAMMP_CARS
+      - BEAMMP_MAX_CARS
       - BEAMMP_MAX_PLAYERS
       - BEAMMP_MAP
       - BEAMMP_NAME

@@ -88,7 +88,7 @@ docker attach <container-name>
 | BEAMMP_AUTH_KEY    | Mandatory! The authentication key used by the server. It is used to identify your server and is not optional. | <empty>                      |
 | BEAMMP_DEBUG       | Set to true to enable debug output in the console.                                                            | false                        |
 | BEAMMP_PRIVATE     | Set to true if you don't want to show up in the Server Browser.                                               | true                         |
-| BEAMMP_CARS        | How many vehicles a player is allowed to have at the same time.                                               | 1                            |
+| BEAMMP_MAX_CARS    | How many vehicles a player is allowed to have at the same time.                                               | 1                            |
 | BEAMMP_MAX_PLAYER  | How many players your server can hold at a time.                                                              | 10                           |
 | BEAMMP_MAP         | What the server map is.                                                                                       | /levels/gridmap_v2/info.json |
 | BEAMMP_NAME        | What your server is called. This shows up in the Server Browser.                                              | BeamMP New Server            |
