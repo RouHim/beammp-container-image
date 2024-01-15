@@ -40,7 +40,6 @@ RUN cmake . -B bin \
 
 # Build the 'BeamMP-Server' executable
 RUN cmake --build bin --parallel -t BeamMP-Server
-RUN strip bin/BeamMP-Server
 
 ####################
 #    Run Image     #
