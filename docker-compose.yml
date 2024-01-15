@@ -11,7 +11,7 @@ services:
       # Game server parameter
       - BEAMMP_PRIVATE
       - BEAMMP_MAX_CARS
-      - BEAMMP_MAX_PLAYERS
+      - BEAMMP_MAX_PLAYERSS
       - BEAMMP_MAP
       - BEAMMP_NAME
       - BEAMMP_DESCRIPTION
