@@ -14,7 +14,7 @@ services:
       - BEAMMP_MAX_PLAYERS
       - BEAMMP_MAP
       - BEAMMP_NAME
-      - BEAMMP_DESC
+      - BEAMMP_DESCRIPTION
       - BEAMMP_PORT
       - BEAMMP_DEBUG
       - BEAMMP_AUTH_KEY
