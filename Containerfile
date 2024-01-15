@@ -12,22 +12,19 @@ WORKDIR /work
 
 # Install game server required packages
 RUN apt update && apt upgrade -y && \
-    apt install -y liblua5.3-0
+    apt install -y liblua5.3-0 curl
 
 # Detect the latest release version (expect pre-releases)
 # AND Download "BeamMP-Server.$CURRENT_OS.$ARCH"
 # Where arch is either x86_64 or arm64
 # And download to current dir as "BeamMP-Server"
-#RUN export LATEST_VERSION=$(curl -s https://api.github.com/repos/BeamMP/BeamMP-Server/releases/latest | grep "tag_name" | cut -d '"' -f 4) && \
-#    export CURRENT_ARCH=$(uname -m) && \
-#    export CURRENT_OS="debian.12" && \
-#    export DOWNLOAD_URL="https://github.com/BeamMP/BeamMP-Server/releases/download/$LATEST_VERSION/BeamMP-Server.$CURRENT_OS.$CURRENT_ARCH" && \
-#    echo "Downloading $DOWNLOAD_URL" && \
-#    curl -L -o BeamMP-Server $DOWNLOAD_URL
-
-# As a temporary workaround, copy the binary instead of downloading it
-COPY BeamMP-Server ./BeamMP-Server
-RUN chmod +x BeamMP-Server
+RUN export LATEST_VERSION=$(curl -s https://api.github.com/repos/BeamMP/BeamMP-Server/releases/latest | grep "tag_name" | cut -d '"' -f 4) && \
+    export CURRENT_ARCH=$(uname -m) && \
+    export CURRENT_OS="debian.12" && \
+    export DOWNLOAD_URL="https://github.com/BeamMP/BeamMP-Server/releases/download/$LATEST_VERSION/BeamMP-Server.$CURRENT_OS.$CURRENT_ARCH" && \
+    echo "Downloading $DOWNLOAD_URL" && \
+    curl -L -o BeamMP-Server $DOWNLOAD_URL && \
+    chmod +x BeamMP-Server
 
 ####################
 #    Run Image     #
