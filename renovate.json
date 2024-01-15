@@ -1,6 +1,10 @@
 {
   "packageRules": [
     {
+      "managers": ["dockerfile"],
+      "enabled": false
+    },
+    {
       "matchUpdateTypes": [
         "major",
         "minor",

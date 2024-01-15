@@ -1,13 +1,16 @@
 #!/bin/bash
 #
 # Description:
-#     This script tests the beammp-server container image
+#     This script tests the beammp-server container image.
+#
+# Example usage:
+#     ./test-image.sh beammp-server:latest
 #
 ##################
 
 # Spin up a BeamMP server
 echo "🚀 Spinning up a test container"
-docker run -d --name test-container -e AUTH_KEY="$BEAMMP_AUTH_KEY" "$1"
+docker run -d --name test-container -e BEAMMP_AUTH_KEY="$BEAMMP_AUTH_KEY" "$1"
 
 # Wait some time
 echo "😴 sleeping 10 seconds"
