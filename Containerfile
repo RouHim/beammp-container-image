@@ -3,14 +3,11 @@
 ####################
 FROM docker.io/ubuntu:22.04 AS builder
 
-# Create empty folder
-RUN mkdir -p /empty-dir
-
-# Prepare build environment
-RUN mkdir -p /work
+# Prepare environment
+RUN mkdir /work
 WORKDIR /work
 
-# Install game server required packages
+# Install curl for downloading the latest release
 RUN apt update && apt upgrade -y && apt install -y curl
 
 # Detect the latest release version (expect pre-releases)
