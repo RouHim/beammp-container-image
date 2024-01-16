@@ -54,7 +54,7 @@ COPY --from=builder /work/BeamMP-Server ./beammp-server
 # Prepare user
 RUN groupadd -r beammp && \
     useradd -r -g beammp beammp && \
-    chown -R beammp:beammp . && chmod -R 775 .
+    chown -R beammp:beammp . && chmod -R 777 .
 USER beammp
 
 # Specify entrypoint
