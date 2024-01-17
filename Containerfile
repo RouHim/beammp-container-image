@@ -51,6 +51,9 @@ WORKDIR /beammp
 # Copy the previously downloaded executable
 COPY --from=builder /work/BeamMP-Server ./beammp-server
 
+# Create entrypoint.sh, that show a depcrecation warning
+COPY entrypoint.sh .
+
 # Prepare user
 RUN groupadd -r beammp && \
     useradd -r -g beammp beammp && \
@@ -58,4 +61,4 @@ RUN groupadd -r beammp && \
 USER beammp
 
 # Specify entrypoint
-ENTRYPOINT ["/beammp/beammp-server"]
+ENTRYPOINT ["/beammp/entrypoint.sh"]
