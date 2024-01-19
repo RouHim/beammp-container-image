@@ -8,7 +8,7 @@ RUN mkdir /work
 WORKDIR /work
 
 # Install curl for downloading the latest release
-RUN apt update && apt upgrade -y && apt install -y curl
+RUN apt-get update && apt-get upgrade -y && apt-get install -y curl
 
 # Detect the latest release version (expect pre-releases)
 # AND Download "BeamMP-Server.$CURRENT_OS.$ARCH"
@@ -40,8 +40,8 @@ ENV BEAMMP_DEBUG "false"
 ENV BEAMMP_AUTH_KEY ""
 
 # Install game server required packages
-RUN apt update && \
-    apt install -y liblua5.3-0 && \
+RUN apt-get update && \
+    apt-get install -y liblua5.3-0 && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Create game server folder
