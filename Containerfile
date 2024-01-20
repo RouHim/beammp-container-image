@@ -22,6 +22,9 @@ RUN export LATEST_VERSION=$(curl -s https://api.github.com/repos/BeamMP/BeamMP-S
     curl -L -o BeamMP-Server $DOWNLOAD_URL && \
     chmod +x BeamMP-Server
 
+# Ensure the executable is present
+RUN ls -lsh /work/BeamMP-Server
+
 ####################
 #    Run Image     #
 ####################
