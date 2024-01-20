@@ -42,7 +42,7 @@ ENV BEAMMP_AUTH_KEY ""
 # Install game server required packages
 RUN apt update && \
     apt install -y liblua5.3-0 && \
-    apt clean && rm -rf /var/lib/apt/lists/*
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Create game server folder
 RUN mkdir -p /beammp/Resources/Server /beammp/Resources/Client
