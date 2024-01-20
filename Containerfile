@@ -15,7 +15,7 @@ RUN apt update && apt upgrade -y && apt install -y curl
 # Where arch is either x86_64 or arm64
 # And download to current dir as "BeamMP-Server"
 RUN export LATEST_VERSION=$(curl -s https://api.github.com/repos/BeamMP/BeamMP-Server/releases/latest | grep "tag_name" | cut -d '"' -f 4) && \
-    export CURRENT_ARCH=$(uname -m) && \
+    export CURRENT_ARCH=$(uname -m | sed s/aarch64/arm64/g) && \
     export CURRENT_OS="ubuntu.22.04" && \
     export DOWNLOAD_URL="https://github.com/BeamMP/BeamMP-Server/releases/download/$LATEST_VERSION/BeamMP-Server.$CURRENT_OS.$CURRENT_ARCH" && \
     echo "Downloading $DOWNLOAD_URL" && \
