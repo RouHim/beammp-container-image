@@ -24,14 +24,14 @@ Because there were no well-documented BeamMP server container images out there, 
 
 With the latest release of this container image there were two changes that will break your current setup:
 
-1) The [environment variables](#environment-parameter) were renamed. All environment variables are now prefixed
-   with `BEAMMP_`.
+1) The [environment variables](#environment-parameter) were renamed. 
 2) The `ADDITIONAL_SERVER_CONFIG_TOML` no longer exists. Instead, you can now mount a custom `ServerConfig.toml` file
    to the container.
 
 **In order to migrate you have to:**
 
-1) Prefix all environment variables with `BEAMMP_`.
+1) Rename your existing environment variables to the new naming ones listed in the 
+[environment variables](#environment-parameter) section 
 2) If you used the `ADDITIONAL_SERVER_CONFIG_TOML` environment variable, you have to create a `ServerConfig.toml` file
    and mount it to the container. See the [ServerConfig.toml](#custom-serverconfigtoml) section for more information.
 
