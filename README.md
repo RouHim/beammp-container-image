@@ -30,8 +30,8 @@ With the latest release of this container image there were two changes that will
 
 **In order to migrate you have to:**
 
-1) Rename your existing environment variables to the new naming ones listed in the 
-[environment variables](#environment-parameter) section 
+1) Rename your existing environment variables to the new ones listed in the 
+[environment variables](#environment-parameter) section. 
 2) If you used the `ADDITIONAL_SERVER_CONFIG_TOML` environment variable, you have to create a `ServerConfig.toml` file
    and mount it to the container. See the [ServerConfig.toml](#custom-serverconfigtoml) section for more information.
 
