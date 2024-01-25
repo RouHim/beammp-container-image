@@ -27,15 +27,8 @@ while true; do
     break
   fi
 
-  # Print the 5 lines tail of the logs
-  echo "📃 Desired string not found in the logs, printing the last 5 lines of the logs:"
-  echo "========================================"
-  docker-compose logs --tail 5
-  echo "========================================"
-
-  # Wait for 5 seconds before checking again
-  echo "⏳ Waiting for 5 seconds before checking again..."
-  sleep 5
+  echo "⏳ Waiting for 1 seconds before checking again..."
+  sleep 1
 done
 
 # Cleanup and exit with 0
