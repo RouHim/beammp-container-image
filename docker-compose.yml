@@ -20,7 +20,7 @@ services:
       - BEAMMP_AUTH_KEY
     volumes:
       # Map a custom ServerConfig.toml file to the container, this is optional
-      #- ./ServerConfig.toml:/beammp/ServerConfig.toml
+      - ./ServerConfig.toml:/beammp/ServerConfig.toml
       # Just move all the client mods you want to add into this folder
       - ./client-mods:/beammp/Resources/Client
       # All server mods belong here
