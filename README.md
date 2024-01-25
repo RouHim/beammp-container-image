@@ -155,6 +155,9 @@ volumes:
   - ./ServerConfig.toml:/beammp/ServerConfig.toml
 ```
 
+> If you are getting permission errors, make sure to allow the container to access the file. For example by running
+> `chmod 777 ServerConfig.toml`.
+
 ## Resources
 
 - BeamMP server repository: https://github.com/BeamMP/BeamMP-Server
