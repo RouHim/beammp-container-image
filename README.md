@@ -24,14 +24,14 @@ Because there were no well-documented BeamMP server container images out there, 
 
 With the latest release of this container image there were two changes that will break your current setup:
 
-1) The [environment variables](#environment-parameter) were renamed. 
+1) The [environment variables](#environment-parameter) were renamed.
 2) The `ADDITIONAL_SERVER_CONFIG_TOML` no longer exists. Instead, you can now mount a custom `ServerConfig.toml` file
    to the container.
 
 **In order to migrate you have to:**
 
-1) Rename your existing environment variables to the new ones listed in the 
-[environment variables](#environment-parameter) section. 
+1) Rename your existing environment variables to the new ones listed in the
+   [environment variables](#environment-parameter) section.
 2) If you used the `ADDITIONAL_SERVER_CONFIG_TOML` environment variable, you have to create a `ServerConfig.toml` file
    and mount it to the container. See the [ServerConfig.toml](#custom-serverconfigtoml) section for more information.
 
@@ -61,7 +61,9 @@ the `.env` file.
 To get started copy `.env.example` to `.env` and create the mod folder.
 
 ```bash
-cp .env.example .env && mkdir client-mods server-mods
+cp .env.example .env 
+mkdir client-mods server-mods
+chmod 777 client-mods server-mods
 ```
 
 Adjust the values in the `.env` to your needs and run:
@@ -134,7 +136,8 @@ Installation and configuration instructions are provided by each mod.
 ### Custom ServerConfig.toml
 
 If you want to specify a custom `ServerConfig.toml` file, just create a new file called `ServerConfig.toml` and fill it
-with your configuration ([Example](https://wiki.beammp.com/en/home/server-installation#h-4-configuration)). Make sure to mount the file as volume to the container. The file will be mounted to the server
+with your configuration ([Example](https://wiki.beammp.com/en/home/server-installation#h-4-configuration)). Make sure to
+mount the file as volume to the container. The file will be mounted to the server
 directory on startup.
 
 Docker example:
@@ -154,6 +157,8 @@ For docker-compose, just add the following line to the `volumes` section:
 volumes:
   - ./ServerConfig.toml:/beammp/ServerConfig.toml
 ```
+
+> Environment variables will always override the values in the `ServerConfig.toml` file.
 
 > If you are getting permission errors, make sure to allow the container to access the file. For example by running
 > `chmod 777 ServerConfig.toml`.
