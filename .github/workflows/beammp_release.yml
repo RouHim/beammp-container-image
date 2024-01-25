@@ -75,7 +75,7 @@ jobs:
         env:
           BEAMMP_AUTH_KEY: ${{ secrets.BEAMMP_AUTH_KEY }}
         run: |
-          bash test-image.sh ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          timeout 10m bash test-image.sh
 
       - name: Build and push multiplatform container image
         if: github.ref == 'refs/heads/main'

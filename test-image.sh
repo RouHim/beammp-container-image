@@ -4,32 +4,41 @@
 #     This script tests the beammp-server container image.
 #
 # Example usage:
-#     ./test-image.sh beammp-server:latest
+#     ./test-image.sh
+#
+# Environment variables:
+#     BEAMMP_AUTH_KEY: The auth key to use for the BeamMP server.
 #
 ##################
 
 # Spin up a BeamMP server
 echo "🚀 Spinning up a test container"
-docker run -d --name test-container -e BEAMMP_AUTH_KEY="$BEAMMP_AUTH_KEY" "$1"
+cp .env.example .env
+# Overwrite the BEAMMP_AUTH_KEY with the one from the GitHub secrets
+sed -i "s/BEAMMP_AUTH_KEY=.*/BEAMMP_AUTH_KEY=${BEAMMP_AUTH_KEY}/g" .env
+docker-compose up -d
 
-# Wait some time
-echo "😴 sleeping 10 seconds"
-sleep 10
+# Loop until the string is found
+echo "🔍 Checking for the desired string in the logs..."
+while true; do
+  # Check if the desired string is in the logs
+  if docker-compose logs | grep -q "ALL SYSTEMS STARTED SUCCESSFULLY, EVERYTHING IS OKAY"; then
+    echo "✅ Dedicated server started successfully"
+    break
+  fi
 
-# Test for errors in log
-echo "🧪 Testing for errors"
-docker logs test-container # print logs to console for debugging
-docker logs test-container | grep -i '\[ERROR\]'
-if [ "$?" -eq 0 ]; then
-  echo "❌ Found errors in server log:"
-  echo "======================"
-  docker logs test-container
-  echo "======================"
-  docker stop test-container && docker rm test-container
-  exit 1
-fi
+  # Print the 5 lines tail of the logs
+  echo "📃 Desired string not found in the logs, printing the last 5 lines of the logs:"
+  echo "========================================"
+  docker-compose logs --tail 5
+  echo "========================================"
+
+  # Wait for 5 seconds before checking again
+  echo "⏳ Waiting for 5 seconds before checking again..."
+  sleep 5
+done
 
 # Cleanup and exit with 0
-docker stop test-container && docker rm test-container
+docker-compose kill && docker-compose down --volumes
 echo "✅ Done, everything looks good"
 exit 0
