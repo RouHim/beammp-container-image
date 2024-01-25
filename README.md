@@ -135,10 +135,11 @@ Installation and configuration instructions are provided by each mod.
 
 ### Custom ServerConfig.toml
 
-If you want to specify a custom `ServerConfig.toml` file, just create a new file called `ServerConfig.toml` and fill it
-with your configuration ([Example](https://wiki.beammp.com/en/home/server-installation#h-4-configuration)). Make sure to
-mount the file as volume to the container. The file will be mounted to the server
-directory on startup.
+If you want to specify a custom `ServerConfig.toml` file,
+just create a new file called `ServerConfig.toml` and fill it with your
+configuration ([Example](https://wiki.beammp.com/en/home/server-installation#h-4-configuration)).
+Make sure to mount the file as volume to the container.
+The file will be mounted to the server directory on startup.
 
 Docker example:
 
@@ -159,6 +160,8 @@ volumes:
 ```
 
 > Environment variables will always override the values in the `ServerConfig.toml` file.
+
+> Make sure to create the file first, otherwise docker will create a directory instead.
 
 > If you are getting permission errors, make sure to allow the container to access the file. For example by running
 > `chmod 777 ServerConfig.toml`.
