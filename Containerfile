@@ -60,7 +60,9 @@ COPY --from=builder /work/BeamMP-Server ./beammp-server
 # Prepare user, with uid 1000 and gid 1000
 RUN groupadd -g 1000 beammp && \
     useradd -u 1000 -g 1000 -d /beammp -s /bin/bash beammp && \
-    chown -R nobody:nogroup . &&  \
+    chown -R beammp:beammp . &&  \
+    chown -R nobody:nogroup /beammp/Resources/Server && \
+    chown -R nobody:nogroup /beammp/Resources/Client && \
     chmod -R 777 .
 USER beammp
 
