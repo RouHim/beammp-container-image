@@ -163,8 +163,7 @@ volumes:
 
 > Make sure to create the file first, otherwise docker will create a directory instead.
 
-> If you are getting permission errors, make sure to allow the container to access the file. For example by running
-> `chmod 777 ServerConfig.toml`.
+> If you are getting permission errors, you can fix them with: `chmod 777 ServerConfig.toml`
 
 ## Resources
 
