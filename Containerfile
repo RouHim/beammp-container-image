@@ -45,23 +45,24 @@ ENV BEAMMP_AUTH_KEY ""
 # Install game server required packages
 RUN apt update && \
     apt install -y liblua5.3-0 && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    apt-get clean && rm -rf /var/lib/apt/lists/
 
 # Create game server folder
 RUN mkdir -p /beammp/Resources/Server /beammp/Resources/Client
+VOLUME /beammp/Resources/Server
+VOLUME /beammp/Resources/Client
 WORKDIR /beammp
 
 # Copy the previously downloaded executable
 COPY --from=builder /work/BeamMP-Server ./beammp-server
 
-# Create entrypoint.sh, that show a depcrecation warning
-COPY entrypoint.sh .
-
-# Prepare user
-RUN groupadd -r beammp && \
-    useradd -r -g beammp beammp && \
-    chown -R beammp:beammp . && chmod -R 777 .
+# Prepare user, with uid 1000 and gid 1000
+RUN groupadd -g 1000 beammp && \
+    useradd -u 1000 -g 1000 -d /beammp -s /bin/bash beammp && \
+    chown -R nobody:nogroup . &&  \
+    chmod -R 777 .
 USER beammp
 
 # Specify entrypoint
+COPY entrypoint.sh .
 ENTRYPOINT ["/beammp/entrypoint.sh"]

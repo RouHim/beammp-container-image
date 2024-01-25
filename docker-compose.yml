@@ -5,6 +5,7 @@ services:
     image: rouhim/beammp-server
     build:
       context: .
+      dockerfile: Containerfile
     stdin_open: true
     tty: true
     environment:
