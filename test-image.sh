@@ -13,8 +13,6 @@
 
 # Spin up a BeamMP server
 echo "🚀 Spinning up a test container"
-cp .env.example .env
-# Overwrite the BEAMMP_AUTH_KEY with the one from the GitHub secrets
 sed -i "s/BEAMMP_AUTH_KEY=.*/BEAMMP_AUTH_KEY=${BEAMMP_AUTH_KEY}/g" .env
 docker-compose up -d
 

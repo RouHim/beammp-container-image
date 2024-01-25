@@ -75,6 +75,9 @@ jobs:
         env:
           BEAMMP_AUTH_KEY: ${{ secrets.BEAMMP_AUTH_KEY }}
         run: |
+          mkdir client-mods server-mods
+          chmod 777 client-mods server-mods
+          cp .env.example .env 
           timeout 1m bash test-image.sh
 
       - name: Build and push multiplatform container image
