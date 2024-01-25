@@ -43,7 +43,8 @@ ENV BEAMMP_DEBUG "false"
 ENV BEAMMP_AUTH_KEY ""
 
 # Install game server required packages
-RUN apt update && \
+RUN apt update &&  \
+    apt upgrade -y && \
     apt install -y liblua5.3-0 && \
     apt-get clean && rm -rf /var/lib/apt/lists/
 
