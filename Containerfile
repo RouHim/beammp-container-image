@@ -41,11 +41,12 @@ ENV BEAMMP_MAX_PLAYERS "10"
 ENV BEAMMP_PRIVATE "true"
 ENV BEAMMP_DEBUG "false"
 ENV BEAMMP_AUTH_KEY ""
+ENV TZ "UTC"
 
 # Install game server required packages
 RUN apt update &&  \
     apt upgrade -y && \
-    apt install -y liblua5.3-0 && \
+    apt install -y liblua5.3-0 tzdata && \
     apt-get clean && rm -rf /var/lib/apt/lists/
 
 # Create game server folder
