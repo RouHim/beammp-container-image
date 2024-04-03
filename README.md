@@ -20,21 +20,6 @@
 
 Because there were no well-documented BeamMP server container images out there, I did one by myself.
 
-## ⚠️ BREAKING CHANGE and migration guide ⚠️
-
-With the latest release of this container image there were two changes that will break your current setup:
-
-1) The [environment variables](#environment-parameter) were renamed.
-2) The `ADDITIONAL_SERVER_CONFIG_TOML` no longer exists. Instead, you can now mount a custom `ServerConfig.toml` file
-   to the container.
-
-**In order to migrate you have to:**
-
-1) Rename your existing environment variables to the new ones listed in the
-   [environment variables](#environment-parameter) section.
-2) If you used the `ADDITIONAL_SERVER_CONFIG_TOML` environment variable, you have to create a `ServerConfig.toml` file
-   and mount it to the container. See the [ServerConfig.toml](#custom-serverconfigtoml) section for more information.
-
 ## Usage
 
 The sections below provides use cases for docker and docker-compose.
@@ -96,6 +81,7 @@ docker attach <container-name>
 | BEAMMP_NAME        | What your server is called. This shows up in the Server Browser.                                              | BeamMP New Server            |
 | BEAMMP_DESCRIPTION | What shows under the name when you click on the server.                                                       | BeamMP Default Description   |
 | BEAMMP_PORT        | This value must be identical to the containers exposed port.                                                  | 30814                        |
+| TZ                 | Set the timezone for the container.                                                                           | Utc                          |
 
 A new **auth key** can be claimed on [this site](https://beammp.com/k/dashboard), you will need
 a [Discord](https://discord.com) account for this. Note that the IP entered there does *not* matter, despite what the
