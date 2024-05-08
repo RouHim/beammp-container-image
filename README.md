@@ -119,9 +119,9 @@ unzip -l PATH/TO/MAP.zip \
 
 ### Automatic updates
 
-If you want to automatically update the mods, you could use a little tool from me called
+If you want to update the mods automatically, you can use a little tool I wrote called
 [beammp-server-beiwagen](https://github.com/RouHim/beammp-server-beiwagen)
-which aims to provide a simple way to update the mods in the `client-mods` folder.
+which aims to provide an easy way to update the mods in the `client-mods` folder.
 
 ## Server mods
 
