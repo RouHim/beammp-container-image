@@ -13,7 +13,7 @@
 
 <p align="center">
     This project provides a container image for the <a href="https://beammp.com">BeamMP</a> 
-    game server and shows its usage in a docker-compose environment.
+    game server and shows its usage in a docker compose environment.
 </p>
 
 ## Motivation
@@ -22,7 +22,7 @@ Because there were no well-documented BeamMP server container images out there, 
 
 ## Usage
 
-The sections below provides use cases for docker and docker-compose.
+The sections below provides use cases for docker and docker compose.
 
 ### docker
 
@@ -38,7 +38,7 @@ docker run --name beammp-server \
 
 > If you want to interact with the server console, just add the `-it` flag to the docker run command.
 
-### docker-compose
+### docker compose
 
 First clone this repository and check `docker-compose.yml` if interested. The configuration should be done within
 the `.env` file.
@@ -47,14 +47,17 @@ To get started copy `.env.example` to `.env` and create the mod folder.
 
 ```bash
 cp .env.example .env 
-mkdir client-mods server-mods
-chmod 777 client-mods server-mods
+mkdir client-mods/ server-mods/
+chmod 777 client-mods/ server-mods/
 ```
+
+> The chmod command is recommended to avoid permission issues.
+> The main reason is, that the user in the container, most likely differs from the user on the host.
 
 Adjust the values in the `.env` to your needs and run:
 
 ```bash
-docker-compose pull && docker-compose up -d
+docker compose pull && docker compose up -d
 
 ```
 
@@ -138,7 +141,7 @@ docker run --name beammp-server \
            rouhim/beammp-server
 ```
 
-For docker-compose, just add the following line to the `volumes` section:
+For docker compose, just add the following line to the `volumes` section:
 
 ```yaml
 volumes:

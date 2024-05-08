@@ -1,6 +1,5 @@
-version: "3"
-
 services:
+
   beammp-server:
     image: rouhim/beammp-server
     build:
@@ -19,7 +18,7 @@ services:
       - BEAMMP_PORT
       - BEAMMP_DEBUG
       - BEAMMP_AUTH_KEY
-      - ENV
+      - TZ
     volumes:
       # Map a custom ServerConfig.toml file to the container, this is optional
       #- ./ServerConfig.toml:/beammp/ServerConfig.toml
