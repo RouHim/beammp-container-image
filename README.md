@@ -117,6 +117,14 @@ unzip -l PATH/TO/MAP.zip \
   | awk '{split($0,a," "); print "/"a[4]}'
 ```
 
+### Automatic updates
+
+If you want to automatically update the mods, you could use a little tool from me called
+[beammp-server-beiwagen](https://github.com/RouHim/beammp-server-beiwagen)
+which aims to provide a simple way to update the mods in the `client-mods` folder.
+
+```bash
+
 ## Server mods
 
 Server mods can be found in the [BeamMP forum](https://forum.beammp.com/c/resource-plugin-area/server-resources).
