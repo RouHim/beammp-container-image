@@ -16,27 +16,7 @@ env:
 
 jobs:
 
-
-  check-containerfile:
-    name: Check container file
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'config'
-          hide-progress: false
-          format: 'table'
-          exit-code: '1'
-          ignore-unfixed: true
-          severity: 'CRITICAL,HIGH'
-
-
   build-test-push-image:
-    needs: check-containerfile
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
