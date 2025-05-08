@@ -174,8 +174,8 @@ volumes:
 ## Resources
 
 - BeamMP server repository: https://github.com/BeamMP/BeamMP-Server
-- Official server maintenance guide: https://wiki.beammp.com/en/home/server-maintenance
-- Official server installation guide: https://wiki.beammp.com/en/home/server-installation
+- Official server maintenance guide: https://docs.beammp.com/server/server-maintenance/
+- Official server installation guide: https://docs.beammp.com/server/create-a-server/
 - Inspired by: https://github.com/mastamic-ian/BeamMP_docker
 - Built from: https://github.com/RouHim/beammp-container-image
 - Built to: https://hub.docker.com/r/rouhim/beammp-server
