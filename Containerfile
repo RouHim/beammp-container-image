@@ -1,7 +1,7 @@
 ####################
 #   Build Image    #
 ####################
-FROM docker.io/ubuntu:22.04 AS builder
+FROM docker.io/ubuntu:24.04 AS builder
 
 # Prepare environment
 RUN mkdir /work
@@ -28,7 +28,7 @@ RUN ls -lsh /work/BeamMP-Server
 ####################
 #    Run Image     #
 ####################
-FROM docker.io/ubuntu:22.04
+FROM docker.io/ubuntu:24.04
 LABEL maintainer="Rouven Himmelstein rouven@himmelstein.info"
 
 ## Game server parameter and their defaults
@@ -59,12 +59,10 @@ WORKDIR /beammp
 COPY --from=builder /work/BeamMP-Server ./beammp-server
 
 # Prepare user, with uid 1000 and gid 1000
-RUN groupadd -g 1000 beammp && \
-    useradd -u 1000 -g 1000 -d /beammp -s /bin/bash beammp && \
-    chown -R beammp:beammp . &&  \
-    chown -R nobody:nogroup /beammp/Resources/ && \
+RUN chown -R 1000:1000 . &&  \
+    chown -R ubuntu:ubuntu /beammp/Resources/ && \
     chmod -R 777 .
-USER beammp
+USER ubuntu
 
 # Specify entrypoint
 COPY entrypoint.sh .
