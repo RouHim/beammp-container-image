@@ -4,6 +4,7 @@
 
 <p align="center">
     <a href="https://github.com/RouHim/beammp-container-image/actions/workflows/beammp_release.yml"><img src="https://github.com/RouHim/beammp-container-image/actions/workflows/beammp_release.yml/badge.svg?branch=main" alt="Release Pipe"></a>
+    <a href="https://github.com/RouHim/beammp-container-image/actions/workflows/beammp_pre-release.yml"><img src="https://github.com/RouHim/beammp-container-image/actions/workflows/beammp_pre-release.yml/badge.svg?branch=main" alt="PreRelease Pipe"></a>
     <a href="https://hub.docker.com/r/rouhim/beammp-server"><img src="https://img.shields.io/docker/pulls/rouhim/beammp-server.svg" alt="Docker Hub pulls"></a>
     <a href="https://hub.docker.com/r/rouhim/beammp-server"><img src="https://img.shields.io/docker/image-size/rouhim/beammp-server" alt="Docker Hub size"></a>
     <a href="https://github.com/aquasecurity/trivy"><img src="https://img.shields.io/badge/trivy-protected-blue" alt="trivy"></a>
@@ -23,6 +24,13 @@ Because there were no well-documented BeamMP server container images out there, 
 ## Usage
 
 The sections below provides use cases for docker and docker compose.
+
+## Versions
+
+There are two version tags available:
+
+- `latest`: The [latest stable](https://github.com/BeamMP/BeamMP-Server/releases/latest) release of the BeamMP server
+- `prerelease`: The [latest development](https://github.com/BeamMP/BeamMP-Server/releases/) release of the BeamMP server
 
 ### docker
 
