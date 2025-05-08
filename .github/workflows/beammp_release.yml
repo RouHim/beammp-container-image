@@ -37,7 +37,7 @@ jobs:
           tags: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           platforms: linux/amd64
           context: .
-          file: ./Containerfile
+          file: ${{ env.CONTAINER_FILE }}
           load: true
           push: false
 
