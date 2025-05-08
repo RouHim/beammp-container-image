@@ -1,5 +1,5 @@
-# This builds the latest stable version of beammp
-name: Stable Release Pipe
+# This builds the latest PreRelease version of beammp
+name: PreRelease Release Pipe
 on:
   push:
   workflow_dispatch: # Allows you to run this workflow manually from the Actions tab
@@ -10,9 +10,9 @@ on:
     - cron: "0 0 * * 0" # weekly at sunday night
 
 env:
-  CONTAINER_FILE: ./Containerfile
+  CONTAINER_FILE: ./PreRelease.Containerfile
   IMAGE_NAME: rouhim/beammp-server
-  IMAGE_TAG: latest
+  IMAGE_TAG: prerelease
 
 jobs:
 
@@ -70,14 +70,6 @@ jobs:
           file: ${{ env.CONTAINER_FILE }}
           load: false
           push: true
-
-      - name: Update docker hub description
-        if: github.ref == 'refs/heads/main'
-        uses: peter-evans/dockerhub-description@v4
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: ${{ env.IMAGE_NAME }}
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
