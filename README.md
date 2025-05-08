@@ -154,10 +154,13 @@ volumes:
   - ./ServerConfig.toml:/beammp/ServerConfig.toml
 ```
 
-> Environment variables will always override the values in the `ServerConfig.toml` file.
+> [!CAUTION]
+> Environment variables (from `.env` file) will always override the values in the `ServerConfig.toml` file.
 
+> [!CAUTION]
 > Make sure to create the file first, otherwise docker will create a directory instead.
 
+> [!TIP]
 > If you are getting permission errors, you can fix them with: `chmod 777 ServerConfig.toml`
 
 ## Resources
