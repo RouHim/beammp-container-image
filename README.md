@@ -144,13 +144,18 @@ configuration ([Example](https://wiki.beammp.com/en/home/server-installation#h-4
 Make sure to mount the file as volume to the container.
 The file will be mounted to the server directory on startup.
 
+> [!CAUTION]
+> Environment variables (from `.env` file) will **always** override the values in the `ServerConfig.toml` file.
+> Thus, ensure the `.env` file is not present.
+
+> [!CAUTION]
+> Make sure to create the `ServerConfig.toml` first, otherwise docker will create a directory instead.
+
 Docker example:
 
 ```bash
 docker run --name beammp-server \
            -p 30814:30814/tcp -p 30814:30814/udp \
-           -e BEAMMP_NAME='My first awesome Server' \
-           -e BEAMMP_AUTH_KEY='<insert auth-key>' \
            -v ./ServerConfig.toml:/beammp/ServerConfig.toml \
            rouhim/beammp-server
 ```
@@ -161,12 +166,6 @@ For docker compose, just add the following line to the `volumes` section:
 volumes:
   - ./ServerConfig.toml:/beammp/ServerConfig.toml
 ```
-
-> [!CAUTION]
-> Environment variables (from `.env` file) will always override the values in the `ServerConfig.toml` file.
-
-> [!CAUTION]
-> Make sure to create the file first, otherwise docker will create a directory instead.
 
 > [!TIP]
 > If you are getting permission errors, you can fix them with: `chmod 777 ServerConfig.toml`
