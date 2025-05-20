@@ -156,8 +156,6 @@ Docker example:
 ```bash
 docker run --name beammp-server \
            -p 30814:30814/tcp -p 30814:30814/udp \
-           -e BEAMMP_NAME='My first awesome Server' \
-           -e BEAMMP_AUTH_KEY='<insert auth-key>' \
            -v ./ServerConfig.toml:/beammp/ServerConfig.toml \
            rouhim/beammp-server
 ```
