@@ -27,8 +27,8 @@ services:
       # All server mods belong here
       - ./server-mods:/beammp/Resources/Server
     ports:
-      - "${BEAMMP_PORT}:${BEAMMP_PORT}/tcp"
-      - "${BEAMMP_PORT}:${BEAMMP_PORT}/udp"
+      - "${BEAMMP_PORT:-30814}:30814/tcp"
+      - "${BEAMMP_PORT:-30814}:30814/udp"
     logging:
       driver: "json-file"
       options:
