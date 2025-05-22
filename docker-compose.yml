@@ -3,7 +3,7 @@ services:
   beammp-server:
     image: rouhim/beammp-server
     build:
-      context: .
+      context: container-data
       dockerfile: Containerfile
     stdin_open: true
     tty: true
