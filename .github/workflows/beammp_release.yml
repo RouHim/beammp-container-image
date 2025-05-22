@@ -36,8 +36,10 @@ jobs:
         with:
           tags: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           platforms: linux/amd64
-          context: .
+          context: container-data
           file: ${{ env.CONTAINER_FILE }}
+          build-args: |
+            PRE_RELEASE=false
           load: true
           push: false
 
@@ -66,8 +68,10 @@ jobs:
         with:
           tags: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           platforms: linux/amd64,linux/arm64
-          context: .
+          context: container-data
           file: ${{ env.CONTAINER_FILE }}
+          build-args: |
+            PRE_RELEASE=false
           load: false
           push: true
 
