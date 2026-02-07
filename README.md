@@ -145,8 +145,8 @@ Make sure to mount the file as volume to the container.
 The file will be mounted to the server directory on startup.
 
 > [!CAUTION]
-> Environment variables (from `.env` file) will **always** override the values in the `ServerConfig.toml` file.
-> Thus, ensure the `.env` file is not present.
+> Environment variables (e.g. from `.env` file) will **always** override the values in the `ServerConfig.toml` file.
+> Thus, ensure the `.env` file is not present and unset all BeamMP environment variables.
 
 > [!CAUTION]
 > Make sure to create the `ServerConfig.toml` first, otherwise docker will create a directory instead.
@@ -157,6 +157,7 @@ Docker example:
 docker run --name beammp-server \
            -p 30814:30814/tcp -p 30814:30814/udp \
            -v ./ServerConfig.toml:/beammp/ServerConfig.toml \
+           -e BEAMMP_PRIVATE -e BEAMMP_MAX_CARS -e BEAMMP_MAX_PLAYERS -e BEAMMP_MAP -e BEAMMP_NAME -e BEAMMP_DESCRIPTION -e BEAMMP_PORT -e BEAMMP_DEBUG -e BEAMMP_AUTH_KEY \
            rouhim/beammp-server
 ```
 
