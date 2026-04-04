@@ -37,7 +37,6 @@ ENV BEAMMP_MAX_PLAYERS "10"
 ENV BEAMMP_PRIVATE "true"
 ENV BEAMMP_DEBUG "false"
 ENV BEAMMP_AUTH_KEY ""
-ENV TEMP_SETTINGS_FILE ""
 ENV TZ "UTC"
 
 # Install game server required packages

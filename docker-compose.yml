@@ -18,7 +18,6 @@ services:
       - BEAMMP_PORT
       - BEAMMP_DEBUG
       - BEAMMP_AUTH_KEY
-      - TEMP_SETTINGS_FILE
       - TZ
     volumes:
       # Map a custom ServerConfig.toml file to the container, this is optional
