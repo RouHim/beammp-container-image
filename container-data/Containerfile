@@ -42,7 +42,7 @@ ENV TZ "UTC"
 # Install game server required packages
 RUN apt update &&  \
     apt upgrade -y && \
-    apt install -y liblua5.3-0 tzdata ca-certificates && \
+    apt install -y liblua5.3-0 tzdata ca-certificates unzip && \
     apt-get clean && rm -rf /var/lib/apt/lists/
 
 # Create game server folder
